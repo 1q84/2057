@@ -19,6 +19,9 @@ class HomeHandler(BaseHandler):
     def get(self, *args, **kwargs):
         self.render("timeline.html")
 
+    def post(self, *args, **kwargs):
+        self.render("timeline.html")
+
 class RegisterHandler(BaseHandler):
     
     def get(self, *args, **kwargs):

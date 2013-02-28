@@ -33,27 +33,27 @@ HTML重定义标签
 .form {
     width: 400px
 }
-#login_wrap{
+#login_register_wrap{
 
 }
-#login_wrap h1{
+#login_register_wrap h1{
     font-size: 14px;
 }
-#login_wrap p{
+#login_register_wrap p{
     font-size:11px;
     color:#666666;
     margin-bottom:20px;
     border-bottom:solid 1px #b7ddf2;
     padding-bottom:10px;
 }
-#login_wrap label{
+#login_register_wrap label{
     display:block;
     font-weight:bold;
     text-align:right;
     width:140px;
     float:left;
 }
-#login_wrap .small{
+#login_register_wrap .small{
     color:#666666;
     display:block;
     font-size:11px;
@@ -61,7 +61,7 @@ HTML重定义标签
     text-align:right;
     width:140px;
 }
-#login_wrap input{
+#login_register_wrap input{
     float:left;
     font-size:12px;
     padding:4px 2px;
@@ -69,7 +69,7 @@ HTML重定义标签
     width:200px;
     margin:2px 0 20px 10px;
 }
-#login_wrap button{
+#login_register_wrap button{
     clear:both;
     margin-left:150px;
     width:125px;
