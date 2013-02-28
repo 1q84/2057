@@ -11,15 +11,16 @@ import time
 define("port", default=8888, help="run on the given port", type=int)
 
 class BaseHandler(tornado.web.RequestHandler):
-    @property
-    def db(self):
-        return self.application.db
+
+    pass
 
 class HomeHandler(BaseHandler):
+    
     def get(self, *args, **kwargs):
         self.render("timeline.html")
 
 class RegisterHandler(BaseHandler):
+    
     def get(self, *args, **kwargs):
         self.render("register.html")
 
@@ -35,10 +36,12 @@ class LoginHandler(BaseHandler):
         pass
 
 class ProfileHandler(BaseHandler):
+    
     def get(self, user_id):
         pass
         
 class Application(tornado.web.Application):
+    
     def __init__(self):
         handlers = [
             (r"/", HomeHandler),

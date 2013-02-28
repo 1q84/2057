@@ -8,7 +8,6 @@ def encrypt_password(password,ts):
     token = 'whyalwaysme'
     return hashlib.md5(ts+password+token).hexdigest()
 
-
 def main():
     import time
     ts = time.time()

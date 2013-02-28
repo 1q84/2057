@@ -1,9 +1,6 @@
 #!/usr/bin/env python
 #-*-encoding:utf-8-*-
 
-"""
-数据层
-"""
 import time
 from util import encrypt_password
 from tornado.options import define, options
