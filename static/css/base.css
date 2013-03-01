@@ -1,11 +1,21 @@
 body{font-family:Arial, Helvetica, sans-serif; font-size:12px; margin:20px; padding:0;}
-    input, form, textarea
-    h1, h2, h3, h4, h5, h6{margin:0; padding:0;}
-    h1{font-size:18px;}
-    h2{font-size:14px; color:#999999;}
-    h3{font-size:13px; border-bottom:solid 1px #DEDEDE; padding:4px 0; margin-bottom:10px;}
-    a:link, a:visited{color:#0033CC;}
-    a:hover{text-decoration:none;}
+input, form, textarea
+h1, h2, h3, h4, h5, h6{margin:0; padding:0;}
+h1{font-size:18px;}
+h2{font-size:14px; color: #999999;padding:2px 0; margin-bottom:10px;}
+h3{font-size:13px; border-bottom:solid 1px #DEDEDE; padding:4px 0; margin-bottom:10px;}
+h4{font-size:12px; color:#999999;}
+a:link, a:visited{color:#0033CC;}
+a:hover{text-decoration:none;
+}
+p{
+font-family:Arial, Helvetica, sans-serif;
+font-size:13px;
+color: #000000;
+margin-bottom:20px;
+border-bottom:solid 1px #b7ddf2;
+padding-bottom:10px;
+}
 /* ——————————
 页面结构
 —————————— */
@@ -15,9 +25,9 @@ body{font-family:Arial, Helvetica, sans-serif; font-size:12px; margin:20px; padd
     #navbar{width:auto; display:block; height:28px;}
         #navbar a{height:28px; line-height:28px; padding:0 8px; display:inline;}
 #main{width:auto; display:block; padding:10px 0;}
-    #column_left{width:460px; margin-right:20px; float:left;}
-    #column_right{width:160px; margin-right:20px; float:left;}
-    #column_right_adsense{width:120px; float:left;}
+    #column_left{width:480px; padding-left: 8px;margin-right:20px; float:left;}
+    #column_right{width:250px; margin-right:20px; float:left;}
+    /*#column_right_adsense{width:120px; float:left;}*/
     div.spacer{clear:both; height:10px; display:block;}
 #footer{width:auto; display:block; padding:10px 0; font-size:11px; color:#666666;}
 
@@ -28,7 +38,7 @@ HTML重定义标签
 /* ——————————
 自定义类
 —————————— */
-/* 在这里添加您的自定义类 … */
+/* 注册登陆wrap … */
  
 .form {
     width: 400px
@@ -81,3 +91,65 @@ HTML重定义标签
     font-size:11px;
     font-weight:bold;
 }
+/* feed wrap … */
+.feedform {
+    width: 560px
+}
+#feed_wrap{
+
+}
+#feed_wrap h1{
+    font-size: 14px;
+}
+#feed_wrap p{
+    font-size:11px;
+    color:#666666;
+    margin-bottom:20px;
+    border-bottom:solid 1px #b7ddf2;
+    padding-bottom:10px;
+}
+#feed_wrap label{
+    display:block;
+    font-weight:bold;
+    text-align:right;
+    width:140px;
+    float:left;
+}
+#feed_wrap .small{
+    color:#666666;
+    display:block;
+    font-size:11px;
+    font-weight:normal;
+    text-align:right;
+    width:140px;
+}
+#feed_wrap input{
+    float:left;
+    font-size:12px;
+    padding:4px 2px;
+    border:solid 1px #aacfe4;
+    width:400px;
+    margin:2px 0 20px 10px;
+}
+#feed_wrap textarea{
+    float:left;
+    font-size:12px;
+    padding:4px 2px;
+    border:solid 1px #aacfe4;
+    width:400px;
+    margin:2px 0 20px 10px;
+}
+#feed_wrap button{
+    clear:both;
+    margin-left:150px;
+    width:125px;
+    height:31px;
+    background: #3399ff url(img/button.png) no-repeat;
+    text-align:center;
+    line-height:31px;
+    color:#FFFFFF;
+    font-size:11px;
+    font-weight:bold;
+}
+
+

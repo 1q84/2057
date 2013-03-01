@@ -1,5 +1,6 @@
 import os
 import time
+import logging
 import tornado.ioloop
 import tornado.web
 import tornado.database
@@ -15,15 +16,13 @@ define("port", default=8888, help="run on the given port", type=int)
 class BaseHandler(tornado.web.RequestHandler):
 
     def get_current_user(self):
-        pass
+        return self.get_secure_cookie("user_id")
     
 class HomeHandler(BaseHandler):
-    
+
+    @tornado.web.authenticated
     def get(self, *args, **kwargs):
         self.render("timeline.html")
-
-#    def post(self, *args, **kwargs):
-#        self.render("timeline.html")
 
 class RegisterHandler(BaseHandler):
     
@@ -31,7 +30,15 @@ class RegisterHandler(BaseHandler):
         self.render("register.html")
 
     def post(self, *args, **kwargs):
-        pass
+        nickname = self.get_argument("nickname", None)
+        email = self.get_argument("email", None)
+        password = self.get_argument("password",None)
+        user_id = service.register(nickname,email,password)
+        if user_id:
+            self.set_secure_cookie('user_id',str(user_id))
+            self.redirect("/")
+            return
+        self.get()
 
 class LoginHandler(BaseHandler):
     
@@ -43,9 +50,44 @@ class LoginHandler(BaseHandler):
         password = self.get_argument("password", None)
         user_id = service.login(email,password)
         if user_id:
+            self.set_secure_cookie('user_id',str(user_id))
             self.redirect("/")
-        else:
-            self.get()
+            return 
+        self.get()
+
+class LogoutHandler(BaseHandler):
+
+    def get(self, *args, **kwargs):
+        self.clear_all_cookies()
+        self.redirect('/login')
+        return
+
+class FeedHandler(BaseHandler):
+
+    @tornado.web.authenticated
+    def get(self, *args, **kwargs):
+        author_id = self.get_argument('author_id', None)
+        if not author_id:
+            author_id = self.get_current_user()
+        feeds = service.get_feed(author_id)
+        self.render("feed.html",feeds=feeds)
+
+class CreateFeedHandler(BaseHandler):
+
+    @tornado.web.authenticated
+    def get(self, *args, **kwargs):
+        self.render("create.html")
+
+    @tornado.web.authenticated
+    def post(self, *args, **kwargs):
+        title = self.get_argument('title', None)
+        content = self.get_argument('content', None)
+        author_id = self.get_argument('author_id', None)
+        if not author_id:
+            author_id = self.get_current_user()
+        service.create_feed(title,content,author_id)
+        self.redirect('/feed')
+        return 
             
 class ProfileHandler(BaseHandler):
     
@@ -59,14 +101,17 @@ class Application(tornado.web.Application):
             (r"/", HomeHandler),
             (r"/user/([^/]+)", ProfileHandler),
             (r"/register", RegisterHandler),
-            (r"/login",LoginHandler)
+            (r"/login",LoginHandler),
+            (r"/logout",LogoutHandler),
+            (r"/feed",FeedHandler),
+            (r"/feed/create",CreateFeedHandler),
         ]
         settings = dict(
             blog_title=u"2057",
             template_path=os.path.join(os.path.dirname(__file__), "templates"),
             static_path=os.path.join(os.path.dirname(__file__), "static"),
 #            ui_modules={"Entry": EntryModule},
-            xsrf_cookies=False,
+            xsrf_cookies=True,
             cookie_secret="11oETzKXQAGaYdkL5gEmGeJJFuYh7EQnp2XdTP1o/Vo=",
             login_url="/login",
             autoescape=None,

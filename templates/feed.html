@@ -1,0 +1,37 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+        "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+    <title>来自2057|给未来的你或是自己</title>
+    <style type="text/css">
+        @import "../static/css/base.css";
+    </style>
+</head>
+<body>
+<div id="container">
+<div id="topbar">顶栏/Logo层</div>
+<div id="navbar">
+    <a href="index.html?home">首页</a>
+    <a href="index.html?about">About</a>
+    <a href="#">Contact me</a>
+</div>
+<div id="main">
+<div id="column_left">
+    {% for feed in feeds %}
+    <h2>{{escape(feed['title'])}}</h2>
+    <h4>{{feed['created']}}</h4>
+    <p> {{escape(feed['content'])}}
+    </p>
+    {% end %}
+</div>
+<div id="column_right">
+    <h3>Let me go.</h3>
+     
+</div>
+<!– Don’t remove spacer div. Solve an issue about container height –>
+<div class="spacer"></div>
+</div>
+<div id="footer">2057 Studio,all rights reserved</div>
+</div>
+</body>
+</html>

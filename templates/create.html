@@ -2,7 +2,7 @@
         "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-    <title>注册2057|给未来的你或是自己</title>
+    <title></title>
     <style type="text/css">
         @import "../static/css/base.css";
     </style>
@@ -18,23 +18,20 @@
         <!--<a href="login">登录</a>-->
         <!--<a href="register">注册</a>-->
     <!--</div>-->
-
 <div id="main">
 <div id="column_left">
-    <div id="login_register_wrap" class="form">
+    <div id="feed_wrap" class="feedform">
         <form id="form" name="form" method="post" action="">
-        {{ xsrf_form_html() }}
-        <h1>注册</h1>
-        <p>得不到的永远在骚动被偏爱的有恃无恐</p>
-        <label>Name <span class="small">Add your name</span> </label>
-        <input type="text" name="nickname" id="name" />
-        <label>Email <span class="small">Add a valid address</span> </label>
-        <input type="text" name="email" id="email" />
-        <label>Password <span class="small">Min. size 6 chars</span> </label>
-        <input type="password" name="password" id="password" />
-        <button type="submit">注册</button>
-        <div class="spacer"></div>
-      </form>
+            {{ xsrf_form_html() }}
+            <h1>发表</h1>
+            <p>得不到的永远在骚动,被偏爱的有恃无恐.</p>
+            <label>Title </label>
+            <input type="text" name="title" id="email" />
+            <label>Content <span class="small">Min. size 6 chars</span> </label>
+            <textarea name="content" rows="24" cols="64"></textarea>
+            <button type="submit">发表</button>
+            <div class="spacer"></div>
+        </form>
     </div>
 </div>
 <!– Don’t remove spacer div. Solve an issue about container height –>
