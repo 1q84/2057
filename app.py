@@ -1,4 +1,5 @@
 import os
+import time
 import tornado.ioloop
 import tornado.web
 import tornado.database
@@ -6,21 +7,23 @@ import tornado.options
 import tornado.httpserver
 from tornado.options import define,options
 import tornado.autoreload
-import time
+from service import Service
+service = Service()
 
 define("port", default=8888, help="run on the given port", type=int)
 
 class BaseHandler(tornado.web.RequestHandler):
 
-    pass
-
+    def get_current_user(self):
+        pass
+    
 class HomeHandler(BaseHandler):
     
     def get(self, *args, **kwargs):
         self.render("timeline.html")
 
-    def post(self, *args, **kwargs):
-        self.render("timeline.html")
+#    def post(self, *args, **kwargs):
+#        self.render("timeline.html")
 
 class RegisterHandler(BaseHandler):
     
@@ -34,10 +37,16 @@ class LoginHandler(BaseHandler):
     
     def get(self, *args, **kwargs):
         self.render("login.html")
-        
-    def post(self, *args, **kwargs):
-        pass
 
+    def post(self, *args, **kwargs):
+        email = self.get_argument("email", None)
+        password = self.get_argument("password", None)
+        user_id = service.login(email,password)
+        if user_id:
+            self.redirect("/")
+        else:
+            self.get()
+            
 class ProfileHandler(BaseHandler):
     
     def get(self, user_id):
@@ -57,7 +66,7 @@ class Application(tornado.web.Application):
             template_path=os.path.join(os.path.dirname(__file__), "templates"),
             static_path=os.path.join(os.path.dirname(__file__), "static"),
 #            ui_modules={"Entry": EntryModule},
-            xsrf_cookies=True,
+            xsrf_cookies=False,
             cookie_secret="11oETzKXQAGaYdkL5gEmGeJJFuYh7EQnp2XdTP1o/Vo=",
             login_url="/login",
             autoescape=None,

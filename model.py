@@ -34,7 +34,7 @@ class UserModel(BaseModel):
         return True
 
     def get_ts_by_email(self, email):
-        sql = "select UNIX_TIMESTAMP(created) as ts,id from user where email = %s;"
+        sql = "select UNIX_TIMESTAMP(created) as ts,id,password from user where email = %s;"
         res = self.db.get(sql,email)
         if res:
             return res
@@ -57,9 +57,9 @@ class UserModel(BaseModel):
         res = self.get_ts_by_email(email)
         if not res:
             return None
-        ts,user_id = res['ts'],res['id']
-        db_password = encrypt_password(password,str(ts))
-        if password<>db_password:
+        ts,user_id,db_password = res['ts'],res['id'],res['password']
+        password = encrypt_password(password,str(ts))
+        if password == db_password:
             return user_id
         return None
 
