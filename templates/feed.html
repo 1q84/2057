@@ -1,37 +1,22 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
-        "http://www.w3.org/TR/html4/loose.dtd">
-<html>
-<head>
-    <title>来自2057|给未来的你或是自己</title>
-    <style type="text/css">
-        @import "../static/css/base.css";
-    </style>
-</head>
-<body>
-<div id="container">
-<div id="topbar">顶栏/Logo层</div>
-<div id="navbar">
-    <a href="#">首页</a>
-    <a href="#">About</a>
-    <a href="#">Contact me</a>
-</div>
-<div id="main">
-<div id="column_left">
-    {% for feed in feeds %}
-    <h2>{{escape(feed['title'])}}</h2>
-    <h4>{{feed['created']}}</h4>
-    <p> {{escape(feed['content'])}}
-    </p>
+{% extends "base.html" %}
+        
+{% block body %}
+    {{ modules.Feed(feed,show_comments,create_comment,flag) }}
+    {% if show_comments %}
+        {% for cmt in show_comments %}
+            {{ modules.Comment(cmt) }}
+        {% end %}
     {% end %}
-</div>
-<div id="column_right">
-    <h3>Let me go.</h3>
-     
-</div>
-<!– Don’t remove spacer div. Solve an issue about container height –>
-<div class="spacer"></div>
-</div>
-<div id="footer">© 1988-2057 Studio,all rights reserved</div>
-</div>
-</body>
-</html>
+    {% if create_comment %}
+    <div id="feed_wrap" class="feedform">
+        <form id="form" name="form" method="post" action="">
+            {{ xsrf_form_html() }}
+            <h2>回应</h2>
+            <textarea name="content" rows="5" cols="64"></textarea>
+            <button type="submit">发表</button>
+            <input type="hidden" name="feed_id" value="{{feed['id']}}">
+            <div class="spacer"></div>
+        </form>
+    </div>
+    {% end %}
+{% end %}

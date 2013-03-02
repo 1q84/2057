@@ -1,14 +1,20 @@
 #!/usr/bin/env python
 #-*-encoding:utf-8-*-
 
-from model import UserModel,FeedModel
+from model import UserModel,FeedModel,CommentModel
 user=UserModel()
 feed=FeedModel()
+comment=CommentModel()
 
 class Service:
 
     def __init__(self):
-        self.user = user
+        pass
+
+    def get_user(self, user_id):
+        if not user_id:
+            return
+        return user.get(user_id)
 
     def register(self, nickname, email, password):
         if not nickname or not email or not password:
@@ -31,12 +37,36 @@ class Service:
     def create_feed(self,title,content,author_id):
         if not title or not content or not author_id:
             return
-        feed.create(title,content,author_id)
+        return feed.create(title,content,author_id)
 
-    def get_feed(self,author_id):
+    def get_feed(self,feed_id):
+        if not feed_id:
+            return
+        return feed.get(feed_id)
+
+    def batch_get_feed(self,author_id):
         if not author_id:
             return
-        return feed.get(author_id)
+        return feed.batch_get(author_id)
+
+    def create_comment(self, feed_id, user_id, content):
+
+        if not feed_id or not user_id or not content:
+            return
+        comment.create(feed_id,user_id,content)
+
+    def get_comment(self, comment_id):
+
+        if not comment_id:
+            return
+        return comment.get(comment_id)
+
+    def batch_get_comment(self, feed_id):
+
+        if not feed_id:
+            return
+        return comment.batch_get(feed_id)
+
 
 def main():
     service = Service()

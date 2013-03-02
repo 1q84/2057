@@ -9,24 +9,32 @@ a:link, a:visited{color:#0033CC;}
 a:hover{text-decoration:none;
 }
 p{
-font-family:Arial, Helvetica, sans-serif;
+font-family: "Helvetica Nue", Helvetica, Arial, sans-serif;
 font-size:13px;
 color: #000000;
 margin-bottom:20px;
 border-bottom:solid 1px #b7ddf2;
 padding-bottom:10px;
 }
+/*#header {*/
+  /*background-color: #3b5998;*/
+  /*padding: 5px;*/
+  /*padding-left: 10px;*/
+  /*padding-right: 10px;*/
+  /*margin-bottom: 1em;*/
+  /*height: 30px;*/
+/*}*/
 /* ——————————
 页面结构
 —————————— */
 /* #container has an absolute width (780 pixel) */
 #container{width:780px; margin:0 auto;}
     #topbar{width:auto; display:block; height:60px;}
-    #navbar{width:auto; display:block; height:28px;}
+    #navbar{width:auto; display:block; height:28px;background-color: #ccffff;}
         #navbar a{height:28px; line-height:28px; padding:0 8px; display:inline;}
 #main{width:auto; display:block; padding:10px 0;}
     #column_left{width:480px; margin-right:20px; float:left;}
-    #column_right{width:260px; margin-right:20px; float:left;}
+    #column_right{width:260px; margin-right:20px; float:left;,}
     /*#column_right_adsense{width:120px; float:left;}*/
     div.spacer{clear:both; height:10px; display:block;}
 #footer{width:auto; display:block; padding:10px 0; font-size:11px; color:#666666;}
@@ -138,6 +146,7 @@ HTML重定义标签
     border:solid 1px #aacfe4;
     width:400px;
     margin:2px 0 20px 10px;
+    font-family: Georgia, serif;
 }
 #feed_wrap button{
     clear:both;

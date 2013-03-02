@@ -15,12 +15,17 @@ define("mysql_password", default="", help="blog database password")
 db = Connection(host=options.mysql_host, database=options.mysql_database,user=options.mysql_user, password=options.mysql_password)
 
 class BaseModel:
+
+
     def __init__(self):
+        
         self.db = db
 
 class UserModel(BaseModel):
     
+    
     def check_email_is_not_exists(self, email):
+        
         sql = "select count(email) as count from users where email = %s;"
         res = self.db.get(sql,email)
         if res['count'] > 0:
@@ -28,6 +33,7 @@ class UserModel(BaseModel):
         return True
     
     def check_nickname_is_not_exists(self, nickname):
+        
         sql = "select count(nickname) as count from users where nickname = %s;"
         res = self.db.get(sql,nickname)
         if res['count'] > 0:
@@ -35,6 +41,7 @@ class UserModel(BaseModel):
         return True
 
     def get_ts_by_email(self, email):
+        
         sql = "select UNIX_TIMESTAMP(created) as ts,id,password from users where email = %s;"
         res = self.db.get(sql,email)
         if res:
@@ -42,6 +49,7 @@ class UserModel(BaseModel):
         return None
 
     def register(self, nickname, email, password):
+        
         if not self.check_email_is_not_exists(email):
             #TODO return
             return None
@@ -55,6 +63,7 @@ class UserModel(BaseModel):
             return None
         
     def login(self, email, password):
+        
         res = self.get_ts_by_email(email)
         if not res:
             return None
@@ -64,9 +73,17 @@ class UserModel(BaseModel):
             return user_id
         return None
 
+    def get(self, user_id):
+
+        sql = "SELECT * form users where user_id = %s;"
+        res = self.db.get(sql, user_id)
+        return res
+
 class FeedModel(BaseModel):
 
-    def create(self,title,content,author_id):
+    
+    def create(self, title, content, author_id):
+        
         slug_base = title.replace(" ", "-").lower()
         valid_letters = string.ascii_letters + string.digits + "-"
         slug_base = "".join(c for c in slug_base if c in valid_letters)[:90]
@@ -75,7 +92,7 @@ class FeedModel(BaseModel):
             try:
                 slug = slug_base + "-" + str(tries) if tries > 0 else slug_base
                 sql = "INSERT INTO feeds (title,slug,author_id,content,created) VALUES (%s,%s,%s,%s,DATE_ADD( UTC_TIMESTAMP( ) , INTERVAL 8 HOUR ))"
-                return self.db.execute(sql, title, slug,author_id, content)
+                return self.db.execute_lastrowid(sql, title, slug,author_id, content)
             except IntegrityError:
                 tries += 1
 
@@ -85,10 +102,56 @@ class FeedModel(BaseModel):
     def delete(self):
         pass
 
-    def get(self,author_id):
+    def get(self, feed_id):
+        
+        sql = "SELECT * from feeds where id = %s;"
+        res = self.db.get(sql,feed_id)
+        return res
+
+    def batch_get(self, author_id):
+        
         sql = "SELECT * from feeds where author_id = %s order by id desc;"
         res = self.db.query(sql,author_id)
         return res
+
+class CommentModel(BaseModel):
+
+
+    def create(self, feed_id, user_id, content, parent_id=None):
+        
+        if not parent_id:
+            parent_id=0
+        sql = "INSERT INTO comments (user_id,feed_id,parent_id,content,created) VALUES (%s,%s,%s,%s,DATE_ADD( UTC_TIMESTAMP( ) , INTERVAL 8 HOUR ));"
+        try:
+            return self.db.execute(sql,user_id,feed_id,parent_id,content)
+        except Exception:
+            import sys
+            print sys.exc_info()
+            return False
+
+    def update(self):
+        
+        pass
+
+    def delete(self):
+        
+        pass
+
+    def get(self, comment_id):
+
+        sql = "SELECT * from comments where id = %s;"
+        res = self.db.query(sql,comment_id)
+        if len(res)>0:
+            return res
+        return None
+
+    def batch_get(self, feed_id):
+
+        sql = "SELECT a.*,b.* from comments a left join users b on a.user_id = b.id where feed_id = %s order by a.id desc;"
+        res = self.db.query(sql,feed_id)
+        if len(res)>0:
+            return res
+        return None
 
 class RelationModel(BaseModel):
 

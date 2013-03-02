@@ -1,6 +1,8 @@
+#-*-encoding:utf-8-*-
 import os
 import time
 import logging
+import markdown
 import tornado.ioloop
 import tornado.web
 import tornado.database
@@ -22,7 +24,11 @@ class HomeHandler(BaseHandler):
 
     @tornado.web.authenticated
     def get(self, *args, **kwargs):
-        self.render("timeline.html")
+        author_id = self.get_argument('author_id', None)
+        if not author_id:
+            author_id = self.get_current_user()
+        feeds = service.batch_get_feed(author_id)
+        self.render("timeline.html",feeds=feeds)
 
 class RegisterHandler(BaseHandler):
     
@@ -64,13 +70,43 @@ class LogoutHandler(BaseHandler):
 
 class FeedHandler(BaseHandler):
 
+    
     @tornado.web.authenticated
-    def get(self, *args, **kwargs):
-        author_id = self.get_argument('author_id', None)
-        if not author_id:
-            author_id = self.get_current_user()
-        feeds = service.get_feed(author_id)
-        self.render("feed.html",feeds=feeds)
+    def get(self, feed_id):
+        
+        if not feed_id:
+            feed_id = self.get_argument('feed_id', None)
+        feed = service.get_feed(feed_id)
+        comments = service.batch_get_comment(feed_id)
+        if not feed:
+            return 
+        self.render("feed.html",feed=feed,show_comments=comments,create_comment=True,flag=False)
+
+    @tornado.web.authenticated
+    def post(self, *args, **kwargs):
+
+        feed_id = self.get_argument('feed_id', None)
+        user_id = self.get_argument('user_id',None)
+        if not user_id:
+            user_id = self.get_current_user()
+        content = self.get_argument('content',None)
+        service.create_comment(feed_id,user_id,content)
+        self.redirect('/feed/%s'%feed_id)
+        return
+
+class CommentHandler(BaseHandler):
+
+
+    @tornado.web.authenticated
+    def get(self, comment_id):
+
+        if not comment_id:
+            comment_id = self.get_argument('comment_id', None)
+        comment = service.get_comment(comment_id)
+        if not comment:
+            return
+        self.render("comment.html",comment=comment)
+
 
 class CreateFeedHandler(BaseHandler):
 
@@ -81,18 +117,27 @@ class CreateFeedHandler(BaseHandler):
     @tornado.web.authenticated
     def post(self, *args, **kwargs):
         title = self.get_argument('title', None)
-        content = self.get_argument('content', None)
+        text = self.get_argument('content', None)
+        content = markdown.markdown(text)
         author_id = self.get_argument('author_id', None)
         if not author_id:
             author_id = self.get_current_user()
-        service.create_feed(title,content,author_id)
-        self.redirect('/feed')
+        feed_id = service.create_feed(title,content,author_id)
+        self.redirect('/feed/%s'%feed_id)
         return 
             
 class ProfileHandler(BaseHandler):
     
     def get(self, user_id):
         pass
+
+class FeedModule(tornado.web.UIModule):
+    def render(self, feed, show_comments=False,create_comment=False,flag=True):
+        return self.render_string("modules/feed.html", feed=feed, show_comments=show_comments,
+                                  create_comment=create_comment, flag=flag)
+class CommentModule(tornado.web.UIModule):
+    def render(self, comment):
+        return self.render_string("modules/comment.html", comment=comment)
         
 class Application(tornado.web.Application):
     
@@ -103,14 +148,14 @@ class Application(tornado.web.Application):
             (r"/register", RegisterHandler),
             (r"/login",LoginHandler),
             (r"/logout",LogoutHandler),
-            (r"/feed",FeedHandler),
-            (r"/feed/create",CreateFeedHandler),
+            (r"/feed/([^/]+)",FeedHandler),
+            (r"/create",CreateFeedHandler),
         ]
         settings = dict(
-            blog_title=u"2057",
+            blog_title=u"2057 文字站",
             template_path=os.path.join(os.path.dirname(__file__), "templates"),
             static_path=os.path.join(os.path.dirname(__file__), "static"),
-#            ui_modules={"Entry": EntryModule},
+            ui_modules={"Feed": FeedModule,"Comment":CommentModule},
             xsrf_cookies=True,
             cookie_secret="11oETzKXQAGaYdkL5gEmGeJJFuYh7EQnp2XdTP1o/Vo=",
             login_url="/login",
@@ -118,6 +163,7 @@ class Application(tornado.web.Application):
             debug = True,
         )
         tornado.web.Application.__init__(self, handlers, **settings)
+
 
 def main():
     ts = time.strftime('%Y%m%d',time.localtime(time.time()))

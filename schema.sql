@@ -24,3 +24,14 @@ CREATE TABLE feeds (
     updated TIMESTAMP NOT NULL,
     KEY (author_id, created)
 );
+
+DROP TABLE IF EXISTS comments;
+CREATE TABLE comments (
+    id INT NOT NULL AUTO_INCREMENT PRIMARY KEY ,
+    parent_id INT NOT NULL DEFAULT 0,
+    user_id VARCHAR (25) NOT NULL REFERENCES users(id),
+    feed_id VARCHAR (25) NOT NULL REFERENCES feeds(id),
+    content VARCHAR (1024) NOT NULL,
+    created DATETIME NOT NULL,
+    key (user_id,created)
+);
