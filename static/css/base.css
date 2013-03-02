@@ -28,12 +28,12 @@ padding-bottom:10px;
 页面结构
 —————————— */
 /* #container has an absolute width (780 pixel) */
-#container{width:780px; margin:0 auto;}
+#container{width:900px; margin:0 auto;}
     #topbar{width:auto; display:block; height:60px;}
     #navbar{width:auto; display:block; height:28px;background-color: #ccffff;}
         #navbar a{height:28px; line-height:28px; padding:0 8px; display:inline;}
 #main{width:auto; display:block; padding:10px 0;}
-    #column_left{width:480px; margin-right:20px; float:left;}
+    #column_left{width:600px; margin-right:20px; float:left;}
     #column_right{width:260px; margin-right:20px; float:left;,}
     /*#column_right_adsense{width:120px; float:left;}*/
     div.spacer{clear:both; height:10px; display:block;}

@@ -152,7 +152,7 @@ class Application(tornado.web.Application):
             (r"/create",CreateFeedHandler),
         ]
         settings = dict(
-            blog_title=u"2057 文字站",
+            blog_title=u"2057 文字站|给未来的你或是自己",
             template_path=os.path.join(os.path.dirname(__file__), "templates"),
             static_path=os.path.join(os.path.dirname(__file__), "static"),
             ui_modules={"Feed": FeedModule,"Comment":CommentModule},
