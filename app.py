@@ -31,7 +31,7 @@ class Application(tornado.web.Application):
             ui_modules={"Note": NoteModule,"Comment":CommentModule},
             xsrf_cookies=True,
             cookie_secret="11oETzKXQAGaYdkL5gEmGeJJFuYh7EQnp2XdTP1o/Vo=",
-            login_url="/login",
+            login_url="/account/login",
             autoescape=None,
             debug = True,
         )
