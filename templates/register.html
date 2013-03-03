@@ -9,6 +9,14 @@
 </head>
 <body>
 <div id="container">
+    <div style="float:right">
+          {% if current_user %}
+            <a href="/account/logout">{{ _("Sign out") }}</a> -
+          {% else %}
+            <a href="/account/register?next={{ url_escape(request.uri) }}">{{ _("Register") }}</a>
+            <a href="/account/login?next={{ url_escape(request.uri) }}">{{ _("Login") }}</a>
+          {% end %}
+    </div>
     <div id="topbar">
         <h2>
             2057 Studio|给未来的你或是自己
