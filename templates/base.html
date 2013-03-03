@@ -14,13 +14,13 @@
         <div style="float:right">
           {% if current_user %}
             <a href="/create">{{ _("New post") }}</a> -
-            <a href="logout?next={{ url_escape(request.uri) }}">{{ _("Sign out") }}</a>
+            <a href="/account/logout?next={{ url_escape(request.uri) }}">{{ _("Sign out") }}</a>
           {% else %}
-            {{ _('<a href="%(url)s">Sign in</a> to compose/edit') % {"url": "/auth/login?next=" + url_escape(request.uri)} }}
+            {{ _('<a href="%(url)s">Sign in</a> to compose/edit') % {"url": "/account/login?next=" + url_escape(request.uri)} }}
           {% end %}
         </div>
   </div>
-  <div id="topbar"><h2>2057 文字站</h2></div>
+  <div id="topbar"><p>2057 文字站</p>
     <div id="navbar">
         <a href="/">首页</a>
         <a href="#">About</a>

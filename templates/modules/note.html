@@ -1,0 +1,24 @@
+{% if note.has_key('user') %}
+<div id="sub_column_left" ><img src="{{note['user']['avatar']}}" style="width: 48px;height: 48px;"></div>
+<div id="sub_column_right">
+<h2>{{escape(note['title'])}}</h2>
+<h4>{{note['created']}}</h4>
+<p> {{escape(note['content'])}}
+{% if flag %}
+<a href="/note/{{note['id']}}">{{ _("Archive") }}</a>
+{% end %}
+</p>
+</div>
+{% else %}
+<h2>{{escape(note['title'])}}</h2>
+<h4>{{note['created']}}</h4>
+<p> {{escape(note['content'])}}
+{% if flag %}
+<a href="/note/{{note['id']}}">{{ _("Archive") }}</a>
+{% end %}
+</p>
+{% end %}
+
+
+
+

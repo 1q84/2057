@@ -1,9 +1,9 @@
 #!/usr/bin/env python
 #-*-encoding:utf-8-*-
 
-from model import UserModel,FeedModel,CommentModel
+from model import UserModel,NoteModel,CommentModel
 user=UserModel()
-feed=FeedModel()
+note=NoteModel()
 comment=CommentModel()
 
 class Service:
@@ -15,6 +15,11 @@ class Service:
         if not user_id:
             return
         return user.get(user_id)
+
+    def batch_get_user(self,user_ids):
+        if not user_ids:
+            return
+        return user.batch_get(user_ids)
 
     def register(self, nickname, email, password):
         if not nickname or not email or not password:
@@ -34,26 +39,26 @@ class Service:
             return
         return user_id
 
-    def create_feed(self,title,content,author_id):
+    def create_note(self,title,content,author_id):
         if not title or not content or not author_id:
             return
-        return feed.create(title,content,author_id)
+        return note.create(title,content,author_id)
 
-    def get_feed(self,feed_id):
-        if not feed_id:
+    def get_note(self,note_id):
+        if not note_id:
             return
-        return feed.get(feed_id)
+        return note.get(note_id)
 
-    def batch_get_feed(self,author_id):
+    def batch_get_note(self,author_id):
         if not author_id:
             return
-        return feed.batch_get(author_id)
+        return note.batch_get(author_id)
 
-    def create_comment(self, feed_id, user_id, content):
+    def create_comment(self, note_id, user_id, content):
 
-        if not feed_id or not user_id or not content:
+        if not note_id or not user_id or not content:
             return
-        comment.create(feed_id,user_id,content)
+        comment.create(note_id,user_id,content)
 
     def get_comment(self, comment_id):
 
@@ -61,11 +66,11 @@ class Service:
             return
         return comment.get(comment_id)
 
-    def batch_get_comment(self, feed_id):
+    def batch_get_comment(self, note_id):
 
-        if not feed_id:
+        if not note_id:
             return
-        return comment.batch_get(feed_id)
+        return comment.batch_get(note_id)
 
 
 def main():

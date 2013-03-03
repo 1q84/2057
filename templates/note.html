@@ -1,20 +1,22 @@
 {% extends "base.html" %}
         
 {% block body %}
-    {{ modules.Feed(feed,show_comments,create_comment,flag) }}
+    {{ modules.Note(note,show_comments,create_comment,flag) }}
     {% if show_comments %}
+        <!--<div style="border-bottom:solid 1px #ffff00;margin-bottom: 30px"></div>-->
+        <p>回应.</p>
         {% for cmt in show_comments %}
             {{ modules.Comment(cmt) }}
         {% end %}
     {% end %}
     {% if create_comment %}
-    <div id="feed_wrap" class="feedform">
+    <div id="comment_wrap" class="commentform">
         <form id="form" name="form" method="post" action="">
             {{ xsrf_form_html() }}
-            <h2>回应</h2>
-            <textarea name="content" rows="5" cols="64"></textarea>
+            <h3>亲，给评一下吧...</h3>
+            <textarea name="content" rows="6" cols="111"></textarea>
             <button type="submit">发表</button>
-            <input type="hidden" name="feed_id" value="{{feed['id']}}">
+            <input type="hidden" name="note_id" value="{{note['id']}}">
             <div class="spacer"></div>
         </form>
     </div>

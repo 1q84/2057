@@ -13,8 +13,8 @@ CREATE TABLE users (
     created timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
-DROP TABLE IF EXISTS feeds;
-CREATE TABLE feeds (
+DROP TABLE IF EXISTS notes;
+CREATE TABLE notes (
     id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     author_id VARCHAR(25) NOT NULL REFERENCES users(id),
     slug VARCHAR(100) NOT NULL UNIQUE,
@@ -30,7 +30,7 @@ CREATE TABLE comments (
     id INT NOT NULL AUTO_INCREMENT PRIMARY KEY ,
     parent_id INT NOT NULL DEFAULT 0,
     user_id VARCHAR (25) NOT NULL REFERENCES users(id),
-    feed_id VARCHAR (25) NOT NULL REFERENCES feeds(id),
+    note_id VARCHAR (25) NOT NULL REFERENCES notes(id),
     content VARCHAR (1024) NOT NULL,
     created DATETIME NOT NULL,
     key (user_id,created)

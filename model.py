@@ -79,7 +79,12 @@ class UserModel(BaseModel):
         res = self.db.get(sql, user_id)
         return res
 
-class FeedModel(BaseModel):
+    def batch_get(self, user_ids):
+
+        res = self.db.query("SELECT * from users where id in (" +",".join(["%s"] * len(user_ids)) + ")", *user_ids)
+        return res
+
+class NoteModel(BaseModel):
 
     
     def create(self, title, content, author_id):
@@ -91,7 +96,7 @@ class FeedModel(BaseModel):
         while True:
             try:
                 slug = slug_base + "-" + str(tries) if tries > 0 else slug_base
-                sql = "INSERT INTO feeds (title,slug,author_id,content,created) VALUES (%s,%s,%s,%s,DATE_ADD( UTC_TIMESTAMP( ) , INTERVAL 8 HOUR ))"
+                sql = "INSERT INTO notes (title,slug,author_id,content,created) VALUES (%s,%s,%s,%s,DATE_ADD( UTC_TIMESTAMP( ) , INTERVAL 8 HOUR ))"
                 return self.db.execute_lastrowid(sql, title, slug,author_id, content)
             except IntegrityError:
                 tries += 1
@@ -102,28 +107,28 @@ class FeedModel(BaseModel):
     def delete(self):
         pass
 
-    def get(self, feed_id):
+    def get(self, note_id):
         
-        sql = "SELECT * from feeds where id = %s;"
-        res = self.db.get(sql,feed_id)
+        sql = "SELECT * from notes where id = %s;"
+        res = self.db.get(sql,note_id)
         return res
 
     def batch_get(self, author_id):
         
-        sql = "SELECT * from feeds where author_id = %s order by id desc;"
-        res = self.db.query(sql,author_id)
+        sql = "SELECT * from notes order by id desc;"
+        res = self.db.query(sql)
         return res
 
 class CommentModel(BaseModel):
 
 
-    def create(self, feed_id, user_id, content, parent_id=None):
+    def create(self, note_id, user_id, content, parent_id=None):
         
         if not parent_id:
             parent_id=0
-        sql = "INSERT INTO comments (user_id,feed_id,parent_id,content,created) VALUES (%s,%s,%s,%s,DATE_ADD( UTC_TIMESTAMP( ) , INTERVAL 8 HOUR ));"
+        sql = "INSERT INTO comments (user_id,note_id,parent_id,content,created) VALUES (%s,%s,%s,%s,DATE_ADD( UTC_TIMESTAMP( ) , INTERVAL 8 HOUR ));"
         try:
-            return self.db.execute(sql,user_id,feed_id,parent_id,content)
+            return self.db.execute(sql,user_id,note_id,parent_id,content)
         except Exception:
             import sys
             print sys.exc_info()
@@ -145,10 +150,10 @@ class CommentModel(BaseModel):
             return res
         return None
 
-    def batch_get(self, feed_id):
+    def batch_get(self, note_id):
 
-        sql = "SELECT a.*,b.* from comments a left join users b on a.user_id = b.id where feed_id = %s order by a.id desc;"
-        res = self.db.query(sql,feed_id)
+        sql = "SELECT a.created,a.content,a.id,b.avatar,b.nickname from comments a left join users b on a.user_id = b.id where note_id = %s order by a.id desc;"
+        res = self.db.query(sql,note_id)
         if len(res)>0:
             return res
         return None

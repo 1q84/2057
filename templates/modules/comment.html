@@ -1,4 +1,10 @@
-<img src="{{comment['avatar']}}" style="height:50px;width:50px;">
-<h4 style="">{{comment['nickname']}}</h4>
-<h4 style="float: right;">{{comment['created']}}</h4>
+<div id="comment_wrap">
+<div id="sub_column_left">
+    <img src="{{comment['avatar']}}" style="height:48px;width:48px;">
+</div>
+<div id="sub_column_right">
+{{comment['nickname']}}
+<div style="float: right;font-size: 11px">{{comment['created']}}</div>
 <p> {{escape(comment['content'])}}</p>
+</div>
+</div>
