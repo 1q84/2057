@@ -3,7 +3,7 @@
 from handlers import BaseHandler
 from service import Service
 import tornado.web
-import markdown
+from util import mark_down
 service=Service()
 
 class NoteHandler(BaseHandler):
@@ -44,7 +44,7 @@ class CreateFeedHandler(BaseHandler):
         text = self.get_argument('content', None)
         if not title or not text:
             self.get()
-        content = markdown.markdown(text)
+        content = mark_down(text)
         author_id = self.get_argument('author_id', None)
         if not author_id:
             author_id = self.get_current_user()

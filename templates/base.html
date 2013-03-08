@@ -10,7 +10,7 @@
   <body>
 
   <div id="container">
-         <div id="header">
+        <div id="header">
         <div style="float:right">
           {% if current_user %}
             <a href="/create">{{ _("New post") }}</a> -
@@ -19,8 +19,8 @@
             {{ _('<a href="%(url)s">Sign in</a> to compose/edit') % {"url": "/account/login?next=" + url_escape(request.uri)} }}
           {% end %}
         </div>
-  </div>
-  <div id="topbar"><p>2057 文字站</p>
+        </div>
+  <div id="topbar"><h2>2057-给未来的你或是自己</h2>
     <div id="navbar">
         <a href="/">首页</a>
         <a href="#">About</a>
@@ -45,8 +45,11 @@
     <!– Don’t remove spacer div. Solve an issue about container height –>
     <div class="spacer"></div>
     </div>
-    <div id="footer">© 1988-2057 Studio,all rights reserved</div>
+    <div id="footer">
+        © 1988-2057 Studio,all rights reserved.总会有条路，适合一些人走。
+    </div>
    </div>
     {% block bottom %}{% end %}
+   </div>
   </body>
 </html>

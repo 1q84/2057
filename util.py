@@ -3,6 +3,15 @@
 
 import hashlib
 import types
+import markdown
+import re
+
+def mark_down(value):
+    strlt = re.compile('<')
+    html = strlt.sub( '&lt;',value )
+    strbr = re.compile('\r\n')
+    html = strbr.sub( '<br/>',html )
+    return markdown.markdown(html)
 
 def encrypt_password(password,ts):
 
