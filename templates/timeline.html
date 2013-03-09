@@ -1,7 +1,30 @@
 {% extends "base.html" %}
 
 {% block body %}
-  {% for note in notes %}
+<div id="column_left">
+    {% for note in notes %}
     {{ modules.Note(note) }}
-  {% end %}
+    {% end %}
+</div>
+<div id="column_right">
+    <div id="sub_column_right_top">
+    <h3>Let me go.</h3>
+    <p>&nbsp;&nbsp;&nbsp;&nbsp;弃我去者，昨日之日不可留；
+       乱我心者，今日之日多烦忧。
+       长风万里送秋雁⑵，对此可以酣高楼⑶。
+      《宣州谢眺楼饯别校书叔云》（黄仲金 书）
+       蓬莱文章建安骨⑷，中间小谢又清发⑸。
+       俱怀逸兴壮思飞⑹，欲上青天览明月⑺。
+       抽刀断水水更流，举杯消愁愁更愁。
+       人生在世不称意⑻，明朝散发弄扁舟⑼</p>
+    </div>
+    <div id="sub_column_right_down">
+        <h3>最新文章.</h3>
+        <p>1.Let me done.</p>
+        <p>2.Nothing lasts forever.</p>
+        <p>3.Nothing lasts forever.</p>
+        <p>4.Nothing lasts forever.</p>
+        <p>5.Nothing lasts forever.</p>
+    </div>
+</div>
 {% end %}

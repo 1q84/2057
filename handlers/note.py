@@ -1,10 +1,8 @@
 #!/usr/bin/env python
 #-*-encoding:utf-8-*-
 from handlers import BaseHandler
-from service import Service
 import tornado.web
 from util import mark_down
-service=Service()
 
 class NoteHandler(BaseHandler):
 
@@ -14,8 +12,8 @@ class NoteHandler(BaseHandler):
 
         if not note_id:
             note_id = self.get_argument('note_id', None)
-        note = service.get_note(note_id)
-        comments = service.batch_get_comment(note_id)
+        note = self.service.get_note(note_id)
+        comments = self.service.batch_get_comment(note_id)
         if not note:
             return
         self.render("note.html",note=note,show_comments=comments,create_comment=True,flag=False)
@@ -28,7 +26,7 @@ class NoteHandler(BaseHandler):
         if not user_id:
             user_id = self.get_current_user()
         content = self.get_argument('content',None)
-        service.create_comment(note_id,user_id,content)
+        self.service.create_comment(note_id,user_id,content)
         self.redirect('/note/%s'%note_id)
         return
     
@@ -48,7 +46,7 @@ class CreateFeedHandler(BaseHandler):
         author_id = self.get_argument('author_id', None)
         if not author_id:
             author_id = self.get_current_user()
-        note_id = service.create_note(title,content,author_id)
+        note_id = self.service.create_note(title,content,author_id)
         if not note_id:
             return 
         self.redirect('/note/%s'%note_id)

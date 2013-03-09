@@ -1,6 +1,7 @@
 {% extends "base.html" %}
         
 {% block body %}
+    <div id="column_left">
     {{ modules.Note(note,show_comments,create_comment,flag) }}
     {% if show_comments %}
         <!--<div style="border-bottom:solid 1px #ffff00;margin-bottom: 30px"></div>-->
@@ -21,4 +22,5 @@
         </form>
     </div>
     {% end %}
+    </div>
 {% end %}

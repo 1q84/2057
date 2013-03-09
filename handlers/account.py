@@ -2,8 +2,6 @@
 #-*-coding:utf-8-*-
 
 from handlers import BaseHandler
-from service import Service
-service=Service()
 
 class RegisterHandler(BaseHandler):
 
@@ -14,7 +12,7 @@ class RegisterHandler(BaseHandler):
         nickname = self.get_argument("nickname", None)
         email = self.get_argument("email", None)
         password = self.get_argument("password",None)
-        user_id = service.register(nickname,email,password)
+        user_id = self.service.register(nickname,email,password)
         if user_id:
             self.set_secure_cookie('user_id',str(user_id))
             self.redirect("/")
@@ -29,7 +27,7 @@ class LoginHandler(BaseHandler):
     def post(self, *args, **kwargs):
         email = self.get_argument("email", None)
         password = self.get_argument("password", None)
-        user_id = service.login(email,password)
+        user_id = self.service.login(email,password)
         if user_id:
             self.set_secure_cookie('user_id',str(user_id))
             self.redirect("/")

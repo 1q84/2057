@@ -2,8 +2,13 @@
 #coding=utf8
 
 from tornado.web import RequestHandler,HTTPError
+from service import Service
 
 class BaseHandler(RequestHandler):
+
+    @property
+    def service(self):
+        return Service.instance()
 
     def get_current_user(self):
         return self.get_secure_cookie("user_id")

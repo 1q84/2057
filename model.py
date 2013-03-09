@@ -12,14 +12,21 @@ define("mysql_database", default="2057", help="blog database name")
 define("mysql_user", default="root", help="blog database user")
 define("mysql_password", default="", help="blog database password")
 
-db = Connection(host=options.mysql_host, database=options.mysql_database,user=options.mysql_user, password=options.mysql_password)
+class BaseModel(object):
 
-class BaseModel:
-
-
+    
     def __init__(self):
         
-        self.db = db
+        self.db = Connection(
+            host=options.mysql_host, database=options.mysql_database,
+            user=options.mysql_user, password=options.mysql_password)
+
+    @classmethod
+    def instance(cls):
+        
+        if not hasattr(cls,'_instance'):
+            cls._instance=cls()
+        return cls._instance
 
 class UserModel(BaseModel):
     
