@@ -10,7 +10,8 @@ class HomeHandler(BaseHandler):
     def get(self, *args, **kwargs):
         author_id = self.get_argument('author_id', None)
         if not author_id:
-            author_id = self.get_current_user()
+            current_user = self.get_current_user()
+            author_id=current_user['id']
         notes = self.service.batch_get_note(author_id)
         user_ids = [note['author_id'] for note in notes]
         user_ids = list(set(user_ids))

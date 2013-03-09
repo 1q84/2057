@@ -3,7 +3,7 @@
 
 import time
 import string
-from util import encrypt_password
+from utils import encrypt_password
 from tornado.options import define, options
 from tornado.database import Connection,IntegrityError
 
@@ -82,7 +82,7 @@ class UserModel(BaseModel):
 
     def get(self, user_id):
 
-        sql = "SELECT * form users where user_id = %s;"
+        sql = "SELECT * from users where id = %s;"
         res = self.db.get(sql, user_id)
         return res
 
