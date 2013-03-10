@@ -1,10 +1,13 @@
 #!/usr/bin/env python
 #-*-coding:utf-8-*-
 
+import tornado.web
+import tornado.gen
 from handlers import BaseHandler
 
 class RegisterHandler(BaseHandler):
 
+    @tornado.web.removeslash
     def get(self, *args, **kwargs):
         self.render("register.html")
 
@@ -21,6 +24,7 @@ class RegisterHandler(BaseHandler):
 
 class LoginHandler(BaseHandler):
 
+    @tornado.web.removeslash
     def get(self, *args, **kwargs):
         self.render("login.html")
 
@@ -36,13 +40,14 @@ class LoginHandler(BaseHandler):
 
 class LogoutHandler(BaseHandler):
 
+    @tornado.web.removeslash
     def get(self, *args, **kwargs):
         self.clear_all_cookies()
         self.redirect('/account/login')
         return
     
 routes = [
-	(r'/account/login',LoginHandler),
-	(r'/account/logout',LogoutHandler),
-    (r'/account/register',RegisterHandler),
+	(r'/account/login/*',LoginHandler),
+	(r'/account/logout/*',LogoutHandler),
+    (r'/account/register/*',RegisterHandler),
 ]

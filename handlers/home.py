@@ -19,7 +19,7 @@ class HomeHandler(BaseHandler):
         user_map = dict((str(u['id']),u) for u in users)
         for note in notes:
             note['user']=user_map['%s'%note['author_id']]
-        self.render("timeline.html",notes=notes)
+        self.render("timeline.html",notes=notes,user=self.get_current_user())
 
 routes = [
 	(r'/',HomeHandler),
