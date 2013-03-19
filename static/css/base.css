@@ -23,21 +23,68 @@ a:hover{text-decoration:none;
 /* #container has an absolute width (900 pixel) */
 #container{width:900px; margin:0 auto;}
     #topbar{width:auto; display:block; height:60px;}
-    #navbar{width:auto; display:block; height:28px;background-color: #9999ff;}
+    #navbar{width:auto; display:block; height:28px;background-color: #ffffff; border: 1px solid #ccffff;}
         #navbar a{height:28px; line-height:28px; padding:0 8px; display:inline;}
 #main{width:auto; display:block; padding:30px 0;}
-    #column_left{width:570px; margin-right:20px; float:left;}
-        #sub_column_left{width:50px;margin-right: 10px;float: left;padding: 14px 2px 2px 8px;}
+
+    #column_top{
+        width:auto; display:block; 
+        height: 240px;
+        padding: 1px 18px 18px 14px;
+        border: 1px solid #ccffff;
+    }
+    #column_top_left{
+        width:190px;margin-right: 10px;float: left;padding: 14px 2px 2px 1px;
+    }
+    #column_top_right{
+        
+        width:480px;margin-right: 10px;float: left;
+            padding: 14px 2px 2px 8px;
+    }
+    #column_down{
+        margin-top: 20px;
+        width:auto; display:block;
+        border: 1px solid #ccffff;
+        padding: 14px 18px 8px 14px;
+    }
+    #column_left{width:570px; margin-right:14px; float:left;
+                background-color: #ffffff;
+                /*border: 1px solid #cccccc;*/
+                filter:alpha(opacity=30);
+                -moz-opacity:0.7;
+                -khtml-opacity: 0.7;
+                opacity: 1;
+                /*padding: 14px 18px 8px 14px;*/
+                margin-bottom: 20px;
+
+
+                -webkit-border-radius: 4px;
+                -moz-border-radius: 4px;
+                border-radius: 8px;
+        }
+        #sub_column_left{width:50px;margin-right: 10px;float: left;padding: 14px 2px 2px 1px;}
         #sub_column_right{
             width:480px;margin-right: 10px;float: left;
             padding: 14px 2px 2px 8px;
         }
-    #column_right{width:270px; margin-right:20px; float:left;}
+    #column_right{width:280px; float:left;
+                background-color: #ffffff;
+                border: 1px solid #ccffff;
+                filter:alpha(opacity=30);
+                -moz-opacity:0.7;
+                -khtml-opacity: 0.7;
+                opacity: 1;
+                padding: 14px 18px 1px 14px;
+                margin-bottom: 20px;
+                -webkit-border-radius: 4px;
+                -moz-border-radius: 4px;
+                border-radius: 8px;
+        }
         #sub_column_right_top{
             height: 360px;
         }
         #sub_column_right_down{
-            height: 800px;
+            height: 360px;
         }
     div.spacer{clear:both; height:10px; display:block;}
 #footer{width:auto; display:block; padding:10px 0; font-size:12px; color: #330033;}
@@ -192,6 +239,7 @@ HTML重定义标签
 
 #comment_wrap button{
     float: right;
+    margin-right: 30px;
     clear:both;
     width:70px;
     height:24px;
@@ -212,4 +260,83 @@ HTML重定义标签
     border-bottom:solid 1px #b7ddf2;
     padding-bottom:10px;
 }
+.backToTop {
+    display: none;
+    width: 18px;
+    line-height: 1.2;
+    padding: 5px 0;
+    background-color: #000;
+    color: #fff;
+    font-size: 12px;
+    text-align: center;
+    position: fixed;
+    _position: absolute;
+    right: 10px;
+    bottom: 100px;
+    _bottom: "auto";
+    cursor: pointer;
+    opacity: .6;
+    filter: Alpha(opacity=60);
+}
 
+/*img*/
+img {
+    width: auto\9;
+    height: auto;
+    max-width: 100%;
+    vertical-align: middle;
+    border: 0;
+    -ms-interpolation-mode: bicubic;
+}
+
+.img-rounded {
+  -webkit-border-radius: 6px;
+     -moz-border-radius: 6px;
+          border-radius: 6px;
+}
+
+.img-polaroid {
+  padding: 4px;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+     -moz-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+          box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.img-circle {
+  -webkit-border-radius: 500px;
+     -moz-border-radius: 500px;
+          border-radius: 500px;
+}
+
+#navigation {
+     height: 40px;
+     width: 100%;
+     background-color: #770c0c;
+}
+#navigation ul {
+     margin: 0 0 0 30px;
+     padding: 0px;
+     font-size: 13px;
+     color: #FFF;
+     line-height: 20px;
+     white-space: nowrap;
+}
+#navigation li {
+     width:50px;
+     list-style-type: none;
+     display: inline;
+     float:left;
+}
+#navigation li a {
+     text-decoration: none;
+     font-family: Arial, Helvetica, sans-serif;
+     padding: 6px 11px;
+     color: #FFF;
+}
+#navigation li a:hover {
+     color: #ff6666;
+     background-color: #990033;
+}

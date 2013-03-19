@@ -1,26 +1,49 @@
 {% extends "base.html" %}
         
 {% block body %}
-    <div id="column_left">
-    {{ modules.Note(note,show_comments,create_comment,flag) }}
-    {% if show_comments %}
-        <!--<div style="border-bottom:solid 1px #ffff00;margin-bottom: 30px"></div>-->
-        <p>回应.</p>
-        {% for cmt in show_comments %}
-            {{ modules.Comment(cmt) }}
+      <div id="column_top">
+        <div id="column_top_left">
+         <img src="{{owner['avatar']}}" alt="" class="img-polaroid">
+          <div id="navigation">
+          <ul>
+              <li><a href="/{{owner['id']}}/profile" >{{owner['note_count']}}</a></li>
+              <li><a href="/{{owner['id']}}/follow">{{owner['friend_count']}}</a></li>
+              <li><a href="/{{owner['id']}}/fans">{{owner['fans_count']}}</a></li>
+              <li>Notes</li>
+              <li>Friends</li>
+              <li>Fans</li>
+          </ul>
+           </div>
+         <!--<p style="color: #0000cc;">||</p>-->
+        </div>
+        <div id="column_top_right">
+            <h2>{{owner['nickname']}}</h2>
+            <p style="font-size: 13px;color: #990033;">这应该是一段介绍......介绍很多微笑！</p>
+        </div>
+    </div>
+    <div id="column_down">
+    </div>
+
+        <div id="column_left">
+        {{ modules.Note(note,show_comments,create_comment,flag) }}
+        {% if show_comments %}
+            <!--<div style="border-bottom:solid 1px #ffff00;margin-bottom: 30px"></div>-->
+            <p>回应.</p>
+            {% for cmt in show_comments %}
+                {{ modules.Comment(cmt) }}
+            {% end %}
         {% end %}
-    {% end %}
-    {% if create_comment %}
-    <div id="comment_wrap" class="commentform">
-        <form id="form" name="form" method="post" action="">
-            {{ xsrf_form_html() }}
-            <h3>亲，给评一下吧...</h3>
-            <textarea name="content" rows="6" cols="111"></textarea>
-            <button type="submit">发表</button>
-            <input type="hidden" name="note_id" value="{{note['id']}}">
-            <div class="spacer"></div>
-        </form>
-    </div>
-    {% end %}
-    </div>
+        {% if create_comment %}
+            <div id="comment_wrap" class="commentform">
+                <form id="form" name="form" method="post" action="">
+                    {{ xsrf_form_html() }}
+                    <h3>亲，给评一下吧...</h3>
+                    <textarea name="content" rows="6" cols="105"></textarea>
+                    <button type="submit">发表</button>
+                    <input type="hidden" name="note_id" value="{{note['id']}}">
+                    <div class="spacer"></div>
+                </form>
+            </div>
+        {% end %}
+        </div>
 {% end %}

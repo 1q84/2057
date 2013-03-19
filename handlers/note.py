@@ -12,11 +12,12 @@ class NoteHandler(BaseHandler):
 
         if not note_id:
             note_id = self.get_argument('note_id', None)
+        owner = self.get_current_user()
         note = self.service.get_note(note_id)
         comments = self.service.batch_get_comment(note_id)
         if not note:
             return
-        self.render("note.html",note=note,show_comments=comments,create_comment=True,flag=False)
+        self.render("note.html",note=note,show_comments=comments,create_comment=True,flag=False,owner=owner)
 
     @tornado.web.authenticated
     def post(self, *args, **kwargs):
@@ -24,7 +25,7 @@ class NoteHandler(BaseHandler):
         note_id = self.get_argument('note_id', None)
         user_id = self.get_argument('user_id',None)
         if not user_id:
-            user_id = self.get_current_user()
+            user_id = self.get_current_user().get('id')
         content = self.get_argument('content',None)
         self.service.create_comment(note_id,user_id,content)
         self.redirect('/note/%s'%note_id)

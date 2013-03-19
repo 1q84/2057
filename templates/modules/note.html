@@ -1,22 +1,27 @@
 {% if note.has_key('user') %}
-<div id="sub_column_left" ><img src="{{note['user']['avatar']}}" style="width: 48px;height: 48px;"></div>
-<div id="sub_column_right">
-<h2>{{note['title']}}</h2>
-<h4>{{note['created']}}</h4>
-{{note['content']}}
-{% if flag %}
-<a href="/note/{{note['id']}}">{{ _("Archive") }}</a>
-{% end %}
- </div>
+    <div id="sub_column_left" ><a href="/{{note['user']['id']}}/profile"><img src="{{note['user']['avatar']}}" style="width: 48px;height: 48px;" class="img-rounded"></a>
+    </div>
+    <div id="sub_column_right">
+        <h2>{{note['title']}}</h2>
+        {{note['content']}}
+        {% if flag %}
+            <a href="/note/{{note['id']}}" style="text-decoration: none">{{note['created']}}</a>
+            <h1 style="border-bottom:solid 1px #ccffff;"></h1>
+        {%else%}
+            {{note['created']}}
+        {% end %}
+     </div>
 {% else %}
-<h2>{{note['title']}}</h2>
-<h4>{{note['created']}}</h4>
-<p> {{note['content']}}
-{% if flag %}
-<a href="/note/{{note['id']}}">{{ _("Archive") }}</a>
+    <h2>{{note['title']}}</h2>
+    <p> {{note['content']}}
+    {% if flag %}
+        <a href="/note/{{note['id']}}" style="text-decoration: none">{{note['created']}}</a>
+        <h1 style="border-bottom:solid 1px #ccffff;"></h1>
+    {%else%}
+        {{note['created']}}
+    {% end %}
 {% end %}
-</p>
-{% end %}
+
         
 
 

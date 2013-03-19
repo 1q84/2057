@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 #-*-encoding:utf-8-*-
 
-from model import UserModel,NoteModel,CommentModel
+from model import UserModel,NoteModel,CommentModel,RelationModel
 
 
 class Service(object):
@@ -10,6 +10,7 @@ class Service(object):
         self.user=UserModel.instance()
         self.note=NoteModel.instance()
         self.comment=CommentModel.instance()
+        self.relation=RelationModel.instance()
 
     @classmethod
     def instance(cls):
@@ -20,11 +21,15 @@ class Service(object):
     def get_user(self, user_id):
         if not user_id:
             return
-        return self.user.get(user_id)
+        user = self.user.get(user_id)
+        #TODO add count
+        count = self.get_user_count(user_id)
+        user.update(count)
+        return user
 
     def batch_get_user(self,user_ids):
         if not user_ids:
-            return
+            return []
         return self.user.batch_get(user_ids)
 
     def register(self, nickname, email, password):
@@ -55,10 +60,10 @@ class Service(object):
             return
         return self.note.get(note_id)
 
-    def batch_get_note(self,author_id):
-        if not author_id:
+    def batch_get_note(self,author_ids):
+        if not author_ids:
             return
-        return self.note.batch_get(author_id)
+        return self.note.batch_get(author_ids)
 
     def create_comment(self, note_id, user_id, content):
 
@@ -78,11 +83,41 @@ class Service(object):
             return
         return self.comment.batch_get(note_id)
 
+    def get_friend_ids(self, user_id):
+        friend_ids = self.relation.get_friend_ids(user_id)
+        return friend_ids
+
+    def get_fans_ids(self, user_id):
+        fans_ids = self.relation.get_fans_ids(user_id)
+        return fans_ids
+
+    def get_friends(self, user_id):
+        friend_ids = self.get_friend_ids(user_id)
+        users = self.batch_get_user(friend_ids)
+        return users
+
+    def get_fans(self, user_id):
+        fans_ids = self.get_fans_ids(user_id)
+        users = self.batch_get_user(fans_ids)
+        return users
+
+    def get_user_count(self, user_id):
+        note_count = self.note.get_note_count(user_id)
+        friend_count = self.relation.get_friend_count(user_id)
+        fans_count = self.relation.get_fans_count(user_id)
+        return {
+            'note_count':note_count,
+            'friend_count':friend_count,
+            'fans_count':fans_count
+        }
+
+    def user_notes(self, user_id):
+        return self.note.get_user_note(user_id)
 
 def main():
     service = Service()
-    user_id = service.login('ericsu1988@gmail.com','123456')
-    print user_id
+    users = service.get_friends(4)
+    print users
 
 if __name__ == "__main__":
     main()

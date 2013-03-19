@@ -45,9 +45,20 @@ class LogoutHandler(BaseHandler):
         self.clear_all_cookies()
         self.redirect('/account/login')
         return
+
+class SettingsHandler(BaseHandler):
+
+    @tornado.web.authenticated
+    def get(self, *args, **kwargs):
+        pass
+
+    @tornado.web.authenticated
+    def post(self, *args, **kwargs):
+        pass
     
 routes = [
 	(r'/account/login/*',LoginHandler),
 	(r'/account/logout/*',LogoutHandler),
     (r'/account/register/*',RegisterHandler),
+    (r'/account/settings',SettingsHandler),
 ]

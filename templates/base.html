@@ -23,17 +23,35 @@
   <div id="topbar"><h2>2057-给未来的你或是自己</h2>
     <div id="navbar">
         <a href="/">首页</a>
+        <a href="/{{current_user['id']}}/profile">Me</a>
         <a href="#">About</a>
-        <a href="#">Contact me</a>
+        <a href="#">Contact</a>
     </div>
     <div id="main">
         {% block body %}{% end %}
     <!– Don’t remove spacer div. Solve an issue about container height –>
     <div class="spacer"></div>
     </div>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js"></script>
+    <script>
+    (function() {
+        var $backToTopTxt = "返回顶部", $backToTopEle = $('<div class="backToTop"></div>').appendTo($("body"))
+            .text($backToTopTxt).attr("title", $backToTopTxt).click(function() {
+                $("html, body").animate({ scrollTop: 0 }, 120);
+        }), $backToTopFun = function() {
+            var st = $(document).scrollTop(), winh = $(window).height();
+            (st > 0)? $backToTopEle.show(): $backToTopEle.hide();
+            //IE6下的定位
+            if (!window.XMLHttpRequest) {
+                $backToTopEle.css("top", st + winh - 166);
+            }
+        };
+        $(window).bind("scroll", $backToTopFun);
+        $(function() { $backToTopFun(); });
+    })();
+    </script>
     <div id="footer">
         © 1988-2057 Studio,all rights reserved.总会有条路，适合一些人走。
-        <a href='javascript:scroll(0,0)' title='Top'>Go Top</a>
     </div>
    </div>
     {% block bottom %}{% end %}

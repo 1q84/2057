@@ -35,3 +35,11 @@ CREATE TABLE comments (
     created DATETIME NOT NULL,
     key (user_id,created)
 );
+
+DROP TABLE IF EXISTS relations;
+CREATE TABLE relations (
+    from_user_id int  NOT NULL,
+    to_user_id int  NOT NULL,
+    created TIMESTAMP NOT NULL,
+    PRIMARY KEY (from_user_id, to_user_id)
+);

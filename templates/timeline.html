@@ -2,16 +2,20 @@
 
 {% block body %}
 <div id="column_left">
-    {% for note in notes %}
-    {{ modules.Note(note) }}
+    {% if not notes%}
+        <p>目前还没有Note哦。</p>
+    {% else %}
+        {% for note in notes %}
+        {{ modules.Note(note) }}
+        {% end %}
     {% end %}
 </div>
 <div id="column_right">
     <div id="sub_column_right_top">
     <h3>User Information.</h3>
-    <p><img src="{{user['avatar']}}" alt=""></p>
+    <p><img src="{{user['avatar']}}" alt="" class="img-polaroid"></p>
     <p>{{user['nickname']}}</p>
-    <p>日志数:10</p>
+    <p style="color: #0000cc;">Notes:{{user['note_count']}}|Friends:{{user['friend_count']}}|Fans:{{user['fans_count']}}</p>
     <h2>得不到的永远在骚动,被偏爱的有恃无恐.</h2>
 
     </div>

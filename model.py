@@ -53,13 +53,13 @@ class UserModel(BaseModel):
         res = self.db.get(sql,email)
         if res:
             return res
-        return None
+        return 
 
     def register(self, nickname, email, password):
         
         if not self.check_email_is_not_exists(email):
             #TODO return
-            return None
+            return 
         ts = int(time.time())
         db_password = encrypt_password(password,str(ts))
         sql = "insert into users(nickname,email,password) values (%s,%s,%s);"
@@ -67,18 +67,18 @@ class UserModel(BaseModel):
             user_id = self.db.execute_lastrowid(sql,nickname,email,db_password)
             return user_id
         except Exception,e:
-            return None
+            return 
         
     def login(self, email, password):
         
         res = self.get_ts_by_email(email)
         if not res:
-            return None
+            return 
         ts,user_id,db_password = res['ts'],res['id'],res['password']
         password = encrypt_password(password,str(ts))
         if password == db_password:
             return user_id
-        return None
+        return 
 
     def get(self, user_id):
 
@@ -87,7 +87,6 @@ class UserModel(BaseModel):
         return res
 
     def batch_get(self, user_ids):
-
         res = self.db.query("SELECT * from users where id in (" +",".join(["%s"] * len(user_ids)) + ")", *user_ids)
         return res
 
@@ -120,11 +119,22 @@ class NoteModel(BaseModel):
         res = self.db.get(sql,note_id)
         return res
 
-    def batch_get(self, author_id):
+    def batch_get(self, author_ids):
         
-        sql = "SELECT * from notes order by id desc;"
-        res = self.db.query(sql)
+        res = self.db.query("SELECT * from notes where author_id in (" +",".join(["%s"] * len(author_ids)) + ") order by id desc;", *author_ids)
         return res
+
+    def get_note_count(self, user_id):
+        sql = "select count(author_id) as count from notes where author_id=%s;"
+        res = self.db.get(sql, user_id)
+        return res['count']
+
+    def get_user_note(self, user_id):
+        sql = "SELECT * from notes where author_id=%s;"
+        res = self.db.query(sql,user_id)
+        if len(res) > 0:
+            return res
+        return None
 
 class CommentModel(BaseModel):
 
@@ -155,7 +165,7 @@ class CommentModel(BaseModel):
         res = self.db.query(sql,comment_id)
         if len(res)>0:
             return res
-        return None
+        return 
 
     def batch_get(self, note_id):
 
@@ -163,22 +173,66 @@ class CommentModel(BaseModel):
         res = self.db.query(sql,note_id)
         if len(res)>0:
             return res
-        return None
+        return 
 
 class RelationModel(BaseModel):
 
-    def is_follow(self):
+    def is_follow(self, from_user_id, to_user_id):
+
+        sql = "select count(from_user_id) as count from relations where from_user_id = %s and to_user_id = %s;"
+        res = self.db.get(sql,from_user_id,to_user_id)
+        if res.get("count"):
+            return True
+        return False
+
+    def add_follow(self, from_user_id, to_user_id):
+        sql = "insert into relations(from_user_id,to_user_id,created) values(%s,%s,DATE_ADD( UTC_TIMESTAMP( ) , INTERVAL 8 HOUR ))"
+        res = self.db.execute_rowcount(sql,from_user_id,to_user_id)
+        return res==1
+
+    def remove_follow(self, from_user_id, to_user_id):
+        sql = "delete from relations where from_user_id=%s and to_user_id=%s;"
+        res = self.db.execute_rowcount(sql,from_user_id,to_user_id)
+        return res==1
+
+    def get_friend_ids(self, user_id):
+
+        sql = "select to_user_id from relations where from_user_id = %s;"
+        res = self.db.query(sql,user_id)
+        if len(res)>0:
+            return [item['to_user_id'] for item in res]
+        return
+
+    def get_fans_ids(self, user_id):
+        sql = "select from_user_id from relations where to_user_id = %s;"
+        res = self.db.query(sql,user_id)
+        if len(res)>0:
+            return [item['from_user_id'] for item in res]
+        return
+
+    def get_friend_count(self, user_id):
+        sql = "select count(to_user_id) as count from relations where from_user_id = %s;"
+        res = self.db.get(sql,user_id)
+        return res['count']
+
+    def get_fans_count(self, user_id):
+        sql = "select count(from_user_id) as count from relations where to_user_id = %s;"
+        res = self.db.get(sql,user_id)
+        return res['count']
+
+class NotificationModel(BaseModel):
+
+    def add_notification(self):
         pass
 
-    def add_follow(self):
-        pass
-
-    def remove_follow(self):
+    def get_notification(self):
+        #TODO since_id,max_id
         pass
 
 def main():
-    user = UserModel()
-    res = user.register('哈哈','ericsu1988@gmail.com','123456')
+    relation = RelationModel()
+#    res = relation.add_follow(4,3)
+    res = relation.get_friend_ids(4)
     print res
 
 if __name__ == "__main__":

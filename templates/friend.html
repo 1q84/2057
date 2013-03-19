@@ -14,7 +14,6 @@
               <li>Fans</li>
           </ul>
            </div>
-         <!--<p style="color: #0000cc;">||</p>-->
         </div>
         <div id="column_top_right">
             <h2>{{owner['nickname']}}</h2>
@@ -22,12 +21,13 @@
         </div>
     </div>
     <div id="column_down">
-        {% if not notes%}
-            <p>目前还没有Note哦。</p>
+        {% if not users%}
+            <p>目前还没有关注其他人哦。</p>
         {% else %}
-            {% for note in notes %}
-            {{ modules.Note(note) }}
+            {% for user in users %}
+                {{ modules.User(user) }}
             {% end %}
         {% end %}
+
     </div>
 {% end %}

@@ -19,6 +19,10 @@ class NoteModule(tornado.web.UIModule):
 class CommentModule(tornado.web.UIModule):
     def render(self, comment):
         return self.render_string("modules/comment.html", comment=comment)
+
+class UserModule(tornado.web.UIModule):
+    def render(self, user):
+        return self.render_string("modules/user.html", user=user)
         
 class Application(tornado.web.Application):
     
@@ -28,7 +32,7 @@ class Application(tornado.web.Application):
             blog_title=u"2057 文字站|给未来的你或是自己",
             template_path=os.path.join(os.path.dirname(__file__), "templates"),
             static_path=os.path.join(os.path.dirname(__file__), "static"),
-            ui_modules={"Note": NoteModule,"Comment":CommentModule},
+            ui_modules={"Note": NoteModule,"Comment":CommentModule,"User":UserModule},
             xsrf_cookies=True,
             cookie_secret="11oETzKXQAGaYdkL5gEmGeJJFuYh7EQnp2XdTP1o/Vo=",
             login_url="/account/login",
