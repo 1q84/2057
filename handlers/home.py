@@ -18,10 +18,11 @@ class HomeHandler(BaseHandler):
         user_ids = [u['id'] for u in users]
         user_ids = list(set(user_ids))
         notes = self.service.batch_get_note(user_ids)
+        recent_notes = self.service.recent_notes()
         user_map = dict((str(u['id']),u) for u in users)
         for note in notes:
             note['user']=user_map['%s'%note['author_id']]
-        self.render("timeline.html",notes=notes,user=self.get_current_user())
+        self.render("timeline.html",notes=notes,user=self.get_current_user(),recent_notes=recent_notes)
 
 routes = [
 	(r'/',HomeHandler),

@@ -18,13 +18,16 @@ class Service(object):
             cls._instance = cls()
         return cls._instance
 
-    def get_user(self, user_id):
+    def get_user(self, user_id, current_user_id=None):
         if not user_id:
             return
         user = self.user.get(user_id)
         #TODO add count
         count = self.get_user_count(user_id)
         user.update(count)
+        if long(user_id)!=current_user_id:
+            relation_status = self.relation.get_relation_status(current_user_id,user_id)
+            user.update(relation_status)
         return user
 
     def batch_get_user(self,user_ids):
@@ -113,6 +116,9 @@ class Service(object):
 
     def user_notes(self, user_id):
         return self.note.get_user_note(user_id)
+
+    def recent_notes(self):
+        return self.note.get_recent_notes()
 
 def main():
     service = Service()

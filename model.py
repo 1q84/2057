@@ -130,8 +130,15 @@ class NoteModel(BaseModel):
         return res['count']
 
     def get_user_note(self, user_id):
-        sql = "SELECT * from notes where author_id=%s;"
+        sql = "SELECT * from notes where author_id=%s order by id desc;"
         res = self.db.query(sql,user_id)
+        if len(res) > 0:
+            return res
+        return None
+
+    def get_recent_notes(self):
+        sql = "SELECT id,title from notes order by id desc limit 5;"
+        res = self.db.query(sql)
         if len(res) > 0:
             return res
         return None
@@ -177,11 +184,11 @@ class CommentModel(BaseModel):
 
 class RelationModel(BaseModel):
 
-    def is_follow(self, from_user_id, to_user_id):
+    def is_follow(self, user_id, other_user_id):
 
         sql = "select count(from_user_id) as count from relations where from_user_id = %s and to_user_id = %s;"
-        res = self.db.get(sql,from_user_id,to_user_id)
-        if res.get("count"):
+        res = self.db.get(sql,user_id,other_user_id)
+        if res.get("count")>0:
             return True
         return False
 
@@ -219,6 +226,28 @@ class RelationModel(BaseModel):
         sql = "select count(from_user_id) as count from relations where to_user_id = %s;"
         res = self.db.get(sql,user_id)
         return res['count']
+
+    def get_relation_status(self, user_id, other_user_id):
+        if self.is_follow(user_id,other_user_id) and self.is_fans(user_id,other_user_id):
+            #TODO 互相关注
+            return {'relation_status':1}
+        if self.is_follow(user_id,other_user_id):
+            #TODO 已关注
+            return {'relation_status':2}
+        if self.is_fans(user_id,other_user_id):
+            #TODO 粉丝
+            return {'relation_status':3}
+        return {'relation_status':4}
+
+    def is_fans(self, user_id, other_user_id):
+
+        sql = "select count(from_user_id) as count from relations where from_user_id = %s and to_user_id = %s;"
+        res = self.db.get(sql,other_user_id,user_id)
+        if res.get("count")>0:
+            return True
+        return False
+
+
 
 class NotificationModel(BaseModel):
 

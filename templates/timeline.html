@@ -20,12 +20,14 @@
 
     </div>
     <div id="sub_column_right_down">
-        <h3>最新文章.</h3>
-        <p>1.少有人走的路.</p>
-        <p>2.Nothing lasts forever.</p>
-        <p>3.Losin' the Love.</p>
-        <p>4.君を好きになってしまったんだろう？.</p>
-        <p>5.要么庸俗 要么孤独.</p>
+        <p>Recently Notes.</p>
+        <ol >
+        {% for recent_note in recent_notes %}
+            <li>
+               <p><a href="/note/{{recent_note['id']}}" style="text-decoration: none">{{recent_note['title']}}</a></p>
+            </li>
+        {% end %}
+        </ol>
     </div>
 </div>
 {% end %}

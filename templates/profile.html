@@ -18,6 +18,17 @@
         </div>
         <div id="column_top_right">
             <h2>{{owner['nickname']}}</h2>
+            {% if owner.has_key('relation_status')%}
+            <p>
+                {% if owner['relation_status']==1 %}
+                互相关注
+                {% elif owner['relation_status']==2 %}
+                已关注
+                {%else%}
+                加关注
+                {%end%}
+            </p>
+            {%end%}
             <p style="font-size: 13px;color: #990033;">这应该是一段介绍......介绍很多微笑！</p>
         </div>
     </div>
