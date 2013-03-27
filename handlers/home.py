@@ -21,7 +21,7 @@ class HomeHandler(BaseHandler):
         recent_notes = self.service.recent_notes()
         user_map = dict((str(u['id']),u) for u in users)
         for note in notes:
-            note['user']=user_map['%s'%note['author_id']]
+            note.update({'user':user_map['%s'%note['author_id']]})
         self.render("timeline.html",notes=notes,user=self.get_current_user(),recent_notes=recent_notes)
 
 routes = [

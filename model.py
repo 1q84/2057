@@ -251,12 +251,21 @@ class RelationModel(BaseModel):
 
 class NotificationModel(BaseModel):
 
-    def add_notification(self):
-        pass
+    def add_notification(self, from_user_id, to_user_id, message, notify_type, note_id=None):
 
-    def get_notification(self):
+        sql = "insert into notifications(from_user_id,to_user_id,message,notify_type,note_id,created) values (%s,%s,%s,%s,%s,DATE_ADD( UTC_TIMESTAMP( ) , INTERVAL 8 HOUR ));"
+        try:
+            return self.db.execute(sql,from_user_id,to_user_id,message,notify_type,note_id)
+        except Exception:
+            return False
+        
+    def get_notification(self, user_id):
         #TODO since_id,max_id
-        pass
+        sql = "select from_user_id,to_user_id,message,notify_type,created,note_id from notifications where to_user_id = %s order by created desc;"
+        res = self.db.query(sql,user_id)
+        if len(res)>0:
+            return res
+        return None
 
 def main():
     relation = RelationModel()

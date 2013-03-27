@@ -43,3 +43,13 @@ CREATE TABLE relations (
     created TIMESTAMP NOT NULL,
     PRIMARY KEY (from_user_id, to_user_id)
 );
+
+DROP TABLE IF EXISTS notifications;
+CREATE TABLE notifications (
+    from_user_id int  NOT NULL,
+    to_user_id int  NOT NULL,
+    message VARCHAR(512) NOT NULL,
+    notify_type tinyint NOT NULL DEFAULT 0,
+    created TIMESTAMP NOT NULL,
+    PRIMARY KEY (from_user_id,created)
+);

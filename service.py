@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 #-*-encoding:utf-8-*-
 
-from model import UserModel,NoteModel,CommentModel,RelationModel
-
+from model import UserModel,NoteModel,CommentModel,RelationModel,NotificationModel
+from utils import NOTIFICATION
 
 class Service(object):
 
@@ -11,6 +11,7 @@ class Service(object):
         self.note=NoteModel.instance()
         self.comment=CommentModel.instance()
         self.relation=RelationModel.instance()
+        self.notification = NotificationModel.instance()
 
     @classmethod
     def instance(cls):
@@ -68,11 +69,12 @@ class Service(object):
             return
         return self.note.batch_get(author_ids)
 
-    def create_comment(self, note_id, user_id, content):
+    def create_comment(self, note_id, note_user_id, user_id, content):
 
         if not note_id or not user_id or not content:
             return
         self.comment.create(note_id,user_id,content)
+        self.add_notification(user_id,note_user_id,content,NOTIFICATION.COMMENT,note_id)
 
     def get_comment(self, comment_id):
 
@@ -119,6 +121,22 @@ class Service(object):
 
     def recent_notes(self):
         return self.note.get_recent_notes()
+
+    def get_notification(self, user_id):
+        notifications = self.notification.get_notification(user_id)
+        if not notifications:
+            return None
+        from_user_ids = [notification['from_user_id'] for notification in notifications]
+        from_user_ids.append(user_id)
+        users = self.batch_get_user(from_user_ids)
+        user_map = dict((u['id'],u) for u in users)
+        for notification in notifications:
+            notification['from_user'] = user_map[notification['from_user_id']]
+            notification['to_user'] = user_map[notification['to_user_id']]
+        return notifications
+
+    def add_notification(self, from_user_id, to_user_id, message, notify_type, note_id=None):
+        return self.notification.add_notification(from_user_id,to_user_id,message,notify_type,note_id)
 
 def main():
     service = Service()

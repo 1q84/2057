@@ -38,13 +38,8 @@ def get_first_item(item):
     elif type(item) is types.StringType:
         return item
 
-def main():
-    import time
-    ts = time.time()
-    password = '123456'
-    res = encrypt_password(password,str(ts))
-    print res
+def enum(**enums):
+    return type('Enum', (), enums)
 
-if __name__ == "__main__":
-    main()
-
+GENDER = enum(MALE=0,FEMALE=1)
+NOTIFICATION = enum(COMMENT=0,FANS=1)
