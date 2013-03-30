@@ -6,7 +6,7 @@
         <div class="status-item">
             <div class="mod">
                 <div class="hd">
-                    <a><img src="{{note['user']['avatar']}}" style="width: 48px;height: 48px;"></a>
+                    <a href=""><img src="{{note['user']['avatar']}}" style="width: 48px;height: 48px;"></a>
                 </div>
                 <div class="bd">
                     <p class="text">
@@ -28,14 +28,14 @@
 </div>
 <div class="side">
     <div class="profile">
-    <p>User Information.</p>
+    <h4>User Information.</h4>
     <p><img src="{{user['avatar']}}" alt="" class="img-polaroid"></p>
     <p>{{user['nickname']}}</p>
-    <p style="color: #0000cc;">Notes:{{user['note_count']}}|Friends:{{user['friend_count']}}|Fans:{{user['fans_count']}}</p>
+    <p>Notes:{{user['note_count']}}|Friends:{{user['friend_count']}}|Fans:{{user['fans_count']}}</p>
     <p>得不到的永远在骚动,被偏爱的有恃无恐.</p>
 
-    <p>Recently Notes.</p>
-    <ol >
+    <h4>Recently Notes.</h4>
+    <ol style="-webkit-padding-start: 0">
     {% for recent_note in recent_notes %}
         <li >
            <p><a href="/note/{{recent_note['id']}}" style="text-decoration: none">{{recent_note['title']}}</a></p>
