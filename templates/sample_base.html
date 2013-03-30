@@ -1,0 +1,61 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+        "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title>This is a demo.</title>
+    <style type="text/css">
+        @import "../static/css/style.css";
+    </style>
+</head>
+<body>
+    <div id="header-holder">
+        <div id="header">
+            <div id="navigation">
+                <ul>
+                    <li>
+                        <a href="">2057</a>
+                    </li>
+                    <li>
+                        <a href="">用户</a>
+                    </li>
+                    <li>
+                        <a href="">广场</a>
+                    </li>
+                </ul>
+                <div style="float:right;line-height: 30px;margin-right: 10px;">
+                    <a href="/notification">{{ _("Notification") }}</a> -
+                    <a href="/create">{{ _("New post") }}</a> -
+                    <a href="/account/logout?next={{ url_escape(request.uri) }}">{{ _("Sign out") }}</a>
+                </div>
+            </div>
+            <div id="s-navigation">
+                <div id="sub-navigation">
+                    <div id="sub-navigation-primary">
+                        <ul>
+                            <li>
+                                <a href="">首页</a>
+                            </li>
+                            <li>
+                                <a href="">Me</a>
+                            </li>
+                            <li>
+                                <a href="">About</a>
+                            </li>
+                            <li>
+                                <a href="">Contact</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="container">
+        {% block body %}{% end %}
+        <div id="footer">
+        © 1988-2057 Studio,all rights reserved.总会有条路，适合一些人走。
+        </div>
+    </div>
+</body>
+</html>

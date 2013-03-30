@@ -30,16 +30,9 @@ class FansHandler(BaseHandler):
     def get(self, user_id):
         users = self.service.get_fans(user_id)
         self.render("fans.html",owner=self.service.get_user(user_id),users=users)
-
-class TestHandler(BaseHandler):
-
-    @tornado.web.authenticated
-    def get(self, *args, **kwargs):
-        self.render("test.html")
-
+        
 routes = [
 	(r'/([^/]+)/profile',ProfileHandler),
     (r'/([^/]+)/follow',FriendHandler),
     (r'/([^/]+)/fans',FansHandler),
-    (r'/test',TestHandler)
 ]
