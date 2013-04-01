@@ -64,10 +64,10 @@ class Service(object):
             return
         return self.note.get(note_id)
 
-    def batch_get_note(self,author_ids):
+    def batch_get_note(self,author_ids,page):
         if not author_ids:
             return
-        return self.note.batch_get(author_ids)
+        return self.note.batch_get(author_ids,page)
 
     def create_comment(self, note_id, note_user_id, user_id, content):
 

@@ -32,21 +32,33 @@
                         <a href="">etc</a>
                     </li>
                 </ul>
-                <div style="float:right;line-height: 30px;margin-right: 10px;">
-                    <a href="/notification">{{ _("Notification") }}</a> -
-                    <a href="/create">{{ _("New post") }}</a> -
-                    <a href="/account/logout?next={{ url_escape(request.uri) }}">{{ _("Sign out") }}</a>
+                <div id="top-nav-info">
+                    {% if current_user %}
+                    <ul>
+                        <li><a href="/account/settings">{{current_user['nickname']}}'s account</a></li>
+                        <li><a href="/create">{{ _("New post") }}</a></li>
+                        <li><a href="/notification">{{ _("Notification") }}</a></li>
+                        <li><a href="/account/logout?next={{ url_escape(request.uri) }}">{{ _("Sign out") }}</a></li>
+                    </ul>
+                    
+                    {% else %}
+                        {{ _('<a href="%(url)s">Sign in</a> to compose/edit') % {"url": "/account/login?next=" + url_escape(request.uri)} }}
+                    {% end %}
                 </div>
+                
             </div>
             <div id="s-navigation">
                 <div id="sub-navigation">
                     <div id="sub-navigation-primary">
                         <ul>
                             <li>
-                                <a href="">首页</a>
+                                <a href="/new">首页</a>
                             </li>
                             <li>
                                 <a href="">Me</a>
+                            </li>
+                             <li>
+                                <a href="/{{current_user['id']}}/photo">Photo</a>
                             </li>
                             <li>
                                 <a href="">About</a>

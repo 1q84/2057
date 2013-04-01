@@ -1,27 +1,10 @@
 {% extends "sample_base.html" %}
 {% block body %}
 <div class="article">
-    <div id="statuses">
-        {% for note in notes %}
-        <div class="status-item">
-            <div class="mod">
-                <div class="hd">
-                    <a href=""><img src="{{note['user']['avatar']}}" style="width: 48px;height: 48px;"></a>
-                </div>
-                <div class="bd">
-                    <p class="text">
-                        <a href="" style="text-decoration: none">{{note['user']['nickname']}}</a>:
-                    </p>
-                    <div class="description">
-                        {{note['content']}}
-                    </div>
-                    <div class="actions">
-                        <span><a href="" style="text-decoration: none">{{note['created']}}</a></span>
-                        <a href="" style="text-decoration: none;">收藏</a>
-                        <a href="" style="text-decoration: none;">评论</a>
-                    </div>
-                </div>
-            </div>
+    <div id="photos">
+        {% for status in statuses%}
+        <div class="photo-item">
+            <a href="http://weibo.com/{{status['user']['id']}}" target="_blank"><img src="{{status['user']['avatar_large']}}" alt=""></a>
         </div>
         {% end %}
     </div>
@@ -44,7 +27,6 @@
                 <link rel="next" href="?p=2&amp;tag=0"/>
                 <a href="?p=2&amp;tag=0" >后页&gt;</a>
             </span>
-
     </div>
 
 </div>
@@ -57,13 +39,7 @@
     <p>我一直在等，等开始也等结束，等面对也等逃避，等太多也等太少，等时间苍老，等等...唯不等奇迹，不等未来，却时时再等“过去”。</p>
 
     <h4>Recently Notes.</h4>
-    <ol style="-webkit-padding-start: 0">
-    {% for recent_note in recent_notes %}
-        <li >
-           <p><a href="/note/{{recent_note['id']}}" style="text-decoration: none">{{recent_note['title']}}</a></p>
-        </li>
-    {% end %}
-    </ol>
+
     </div>
 </div>
 {% end %}

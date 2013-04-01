@@ -50,11 +50,16 @@ class SettingsHandler(BaseHandler):
 
     @tornado.web.authenticated
     def get(self, *args, **kwargs):
-        pass
+        self.render("setting.html")
 
     @tornado.web.authenticated
     def post(self, *args, **kwargs):
-        pass
+        user = self.get_current_user()
+        nickname = self.get_argument("nickname", None)
+        gender = self.get_argument("gender", 0)
+        description = self.get_argument("description", None)
+        
+        
     
 routes = [
 	(r'/account/login/*',LoginHandler),

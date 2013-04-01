@@ -119,9 +119,12 @@ class NoteModel(BaseModel):
         res = self.db.get(sql,note_id)
         return res
 
-    def batch_get(self, author_ids):
-        
-        res = self.db.query("SELECT * from notes where author_id in (" +",".join(["%s"] * len(author_ids)) + ") order by id desc;", *author_ids)
+    def batch_get(self, author_ids, page):
+        if not page:
+            page = 1
+        page = int(page)
+        sql = "SELECT * from notes where author_id in %s order by id desc limit 20 offset %s;"
+        res = self.db.query(sql,tuple(author_ids),(page-1)*20)
         return res
 
     def get_note_count(self, user_id):

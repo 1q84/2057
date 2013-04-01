@@ -1,0 +1,20 @@
+{% extends "sample_base.html" %}
+{% block body %}
+<div class="article">
+    {% if current_user %}
+        <p>{{current_user['nickname']}}</p>
+        <img src="{{current_user['avatar']}}" alt="current_user">
+        {% if current_user['gender'] %}
+            <p>男</p>
+        {% else %}
+            <p>女</p>
+        {% end %}
+        <p>{{ current_user['description'] }}</p>
+    {% end %}
+</div>
+<div class="side">
+    
+</div>
+{% end %}
+
+

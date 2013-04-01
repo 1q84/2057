@@ -9,6 +9,7 @@ class HomeHandler(BaseHandler):
     @tornado.web.authenticated
     def get(self, *args, **kwargs):
         author_id = self.get_argument('author_id', None)
+        page = self.get_argument('p', None)
         if not author_id:
             current_user = self.get_current_user()
             author_id=current_user['id']
@@ -17,7 +18,7 @@ class HomeHandler(BaseHandler):
         users.append(self.get_current_user())
         user_ids = [u['id'] for u in users]
         user_ids = list(set(user_ids))
-        notes = self.service.batch_get_note(user_ids)
+        notes = self.service.batch_get_note(user_ids,page)
         recent_notes = self.service.recent_notes()
         user_map = dict((str(u['id']),u) for u in users)
         for note in notes:
@@ -29,6 +30,7 @@ class NewHandler(BaseHandler):
     @tornado.web.authenticated
     def get(self, *args, **kwargs):
         author_id = self.get_argument('author_id', None)
+        page = self.get_argument('p', None)
         if not author_id:
             current_user = self.get_current_user()
             author_id=current_user['id']
@@ -37,7 +39,7 @@ class NewHandler(BaseHandler):
         users.append(self.get_current_user())
         user_ids = [u['id'] for u in users]
         user_ids = list(set(user_ids))
-        notes = self.service.batch_get_note(user_ids)
+        notes = self.service.batch_get_note(user_ids,page)
         recent_notes = self.service.recent_notes()
         user_map = dict((str(u['id']),u) for u in users)
         for note in notes:
