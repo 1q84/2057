@@ -35,10 +35,10 @@
                 <div id="top-nav-info">
                     {% if current_user %}
                     <ul>
-                        <li><a href="/account/settings">{{current_user['nickname']}}'s account</a></li>
+                        <li><a href="/account/settings">Account</a>
                         <li><a href="/create">{{ _("New post") }}</a></li>
                         <li><a href="/notification">{{ _("Notification") }}</a></li>
-                        <li><a href="/account/logout?next={{ url_escape(request.uri) }}">{{ _("Sign out") }}</a></li>
+                        <li><a href="/account/logout?next={{ url_escape(request.uri) }}">{{ _("Sign Out") }}</a></li>
                     </ul>
                     
                     {% else %}

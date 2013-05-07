@@ -7,6 +7,7 @@ h3{font-size:13px; padding:4px 0; margin-bottom:10px;}
 h4{font-size:12px;}
 a:link, a:visited{color: #330033;}
 a:hover{text-decoration:none;}
+
 img {
     width: auto\9;
     height: auto;
@@ -236,6 +237,8 @@ img {
                 word-wrap: break-word;
                 overflow: hidden;
             }
+
+
 
 #footer{width:auto; display:block; padding:10px 0; font-size:12px; color: #330033;float: left;}
 

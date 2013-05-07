@@ -24,7 +24,7 @@ class PhotoHandler(BaseHandler):
         else:
             res = tornado.escape.json_decode(response.body)
             self.render("photo.html",statuses=res['statuses'],user = self.get_current_user())
-
+            
 routes = [
 	(r'/([^/]+)/photo',PhotoHandler),
 ]

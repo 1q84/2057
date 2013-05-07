@@ -11,6 +11,9 @@ from tornado.options import define,options
 import tornado.autoreload
 
 define("port", default=8888, help="run on the given port", type=int)
+define('photo_save_path', default = 'static/uploads/', type = str, help = 'where to put user\'s photos')
+define('avatar_save_path', default = 'static/uploads/avatar/', type = str, help = 'where to put avatar')
+options.log_file_prefix = 'log/web.log'
 
 class NoteModule(tornado.web.UIModule):
     def render(self, note, show_comments=False,create_comment=False,flag=True):

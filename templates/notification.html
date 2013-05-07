@@ -1,25 +1,23 @@
-{% extends "base.html" %}
+{% extends "sample_base.html" %}
 {% block body %}
     {% if notifications %}
         {% for notification in notifications %}
-                <div style="padding: 14px 18px 18px 14px;
-                border: 1px solid #ccffff;">
+                <div style="padding: 14px 18px 18px 14px;border: 1px solid #ccffff;">
                     <div id="">
                         <a href="{{notification['from_user']['id']}}/profile"><img src="{{notification['from_user']['avatar']}}" style="height:48px;width:48px;"></a>
                         <img src="{{notification['to_user']['avatar']}}" style="height:48px;width:48px;float: right;">
                     </div>
                     <div>
-                    {% if notification['notify_type'] ==0 %}
-                    评论内容:
-                    <a href="/note/{{notification['note_id']}}" style="text-decoration: none">{{escape(notification['message'])}}</a>
-                    {%elif notification['notify_type'] ==1 %}
-                    谁谁关注了你
-                    {%else%}
-                    目前还没有通知哦！
-                    {%end%}
-                    <div style="float: right;font-size: 11px">{{notification['created']}}</div>
-
-                </div>
+                        {% if notification['notify_type'] ==0 %}
+                        评论内容:
+                        <a href="/note/{{notification['note_id']}}" style="text-decoration: none">{{escape(notification['message'])}}</a>
+                        {%elif notification['notify_type'] ==1 %}
+                        谁谁关注了你
+                        {%else%}
+                        目前还没有通知哦！
+                        {%end%}
+                        <div style="float: right;font-size: 11px">{{notification['created']}}</div>
+                    </div>
                 </div>
 
         {% end %}

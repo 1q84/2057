@@ -26,6 +26,7 @@ class Service(object):
         #TODO add count
         count = self.get_user_count(user_id)
         user.update(count)
+        user['avatar'] = 'http://127.0.0.1:8888/static/uploads/avatar/'+user['avatar']
         if long(user_id)!=current_user_id:
             relation_status = self.relation.get_relation_status(current_user_id,user_id)
             user.update(relation_status)
@@ -53,6 +54,9 @@ class Service(object):
         if not user_id:
             return
         return user_id
+
+    def update_user(self, user_id, nickname, gender, description, avatar):
+        return self.user.update(user_id,nickname, gender, description, avatar)
 
     def create_note(self,title,content,author_id):
         if not title or not content or not author_id:
@@ -129,6 +133,8 @@ class Service(object):
         from_user_ids = [notification['from_user_id'] for notification in notifications]
         from_user_ids.append(user_id)
         users = self.batch_get_user(from_user_ids)
+        for user in users:
+            user['avatar'] = 'http://127.0.0.1:8888/static/uploads/avatar/' + user['avatar']
         user_map = dict((u['id'],u) for u in users)
         for notification in notifications:
             notification['from_user'] = user_map[notification['from_user_id']]

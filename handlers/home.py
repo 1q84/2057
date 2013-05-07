@@ -15,6 +15,8 @@ class HomeHandler(BaseHandler):
             author_id=current_user['id']
 
         users = self.service.get_friends(author_id)
+        for user in users:
+            user['avatar'] = 'http://127.0.0.1:8888/static/uploads/avatar/' + user['avatar']
         users.append(self.get_current_user())
         user_ids = [u['id'] for u in users]
         user_ids = list(set(user_ids))
@@ -36,6 +38,8 @@ class NewHandler(BaseHandler):
             author_id=current_user['id']
 
         users = self.service.get_friends(author_id)
+        for user in users:
+            user['avatar'] = 'http://127.0.0.1:8888/static/uploads/avatar/' + user['avatar']
         users.append(self.get_current_user())
         user_ids = [u['id'] for u in users]
         user_ids = list(set(user_ids))
@@ -46,7 +50,14 @@ class NewHandler(BaseHandler):
             note.update({'user':user_map['%s'%note['author_id']]})
         self.render("test.html",notes=notes,user=self.get_current_user(),recent_notes=recent_notes)
 
+class DemoHandler(BaseHandler):
+
+    @tornado.web.authenticated
+    def get(self, *args, **kwargs):
+        self.render('demo.html')
+
 routes = [
 	(r'/',HomeHandler),
-    (r'/new',NewHandler)
+    (r'/new',NewHandler),
+    (r'/demo',DemoHandler)
 ]

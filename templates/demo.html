@@ -1,0 +1,89 @@
+
+<style type="text/css">
+.menu {
+font-family: verdana, sans-serif;
+width:750px;
+position:relative;
+font-size:0.85em;
+padding-bottom:250px;
+}
+.menu ul {
+padding:0;
+margin:0;
+list-style-type: none;
+}
+.menu ul li {
+float:left;
+position:relative;
+}
+.menu ul li a, .menu ul li a:visited {
+display:block;
+text-decoration:none;
+color:#000;
+width:139px;
+height:3em;
+border:1px solid #fff;
+border-width:1px 1px 0 0;
+background:#dfc184;
+padding-left:10px;
+line-height:3em;
+}
+.menu ul li ul {
+display: none;
+}
+.menu ul li:hover a {
+color:#fff;
+background:#bd8d5e;
+}
+.menu ul li:hover ul {
+display:block;
+position:absolute;
+top:3em;
+margin-top:1px;
+left:0;
+width:150px;
+}
+.menu ul li:hover ul li ul {
+display: none;
+}
+.menu ul li:hover ul li a {
+display:block;
+background:#faeec7;
+color:#000;
+height:auto;
+line-height:1.2em;
+padding:5px 10px;
+width:129px
+}
+.menu ul li:hover ul li a.drop {
+background:#c9c9a7 url(../../graphics/drop.gif) bottom right no-repeat;
+}
+.menu ul li:hover ul li a:hover {
+background:#c9c9a7;
+color:#000;
+}
+.menu ul li:hover ul li:hover ul {
+display:block;
+position:absolute;
+left:150px;
+top:0;
+width:150px;
+}
+.menu ul li:hover ul li:hover ul.left {
+left:-150px;
+}
+
+</style>
+
+        
+<div class="menu">
+<ul>
+<li><a href="../ie/index.html">EXPLORER</a>
+    <ul>
+    <li><a href="../ie/exampleone.html" title="Example one">the first example for Internet Explorer</a></li>
+    <li><a href="../ie/weft.html" title="Weft fonts">weft fonts</a></li>
+    <li><a href="../ie/exampletwo.html" title="Vertical align">vertically aligning text</a></li>
+    </ul>
+</li>
+</ul>
+</div>

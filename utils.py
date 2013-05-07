@@ -5,6 +5,8 @@ import hashlib
 import types
 import markdown
 import re
+import time
+import os
 
 def mark_down(value):
     strlt = re.compile('<')
@@ -38,6 +40,10 @@ def get_first_item(item):
     elif type(item) is types.StringType:
         return item
 
+def gen_avatar_path():
+    ts = int(time.time())
+    return str(ts)
+    
 def enum(**enums):
     return type('Enum', (), enums)
 

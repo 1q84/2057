@@ -51,11 +51,10 @@
 <div class="side">
     <div class="profile">
     <h4>User Information</h4>
-    <p><img src="{{user['avatar']}}" alt="" class="img-polaroid"></p>
+    <p><img src="{{user['avatar']}}" alt="" class="img-polaroid" style="width: 180px;height: 180px;"></p>
     <p>{{user['nickname']}}</p>
     <p>Notes:{{user['note_count']}}|Friends:{{user['friend_count']}}|Fans:{{user['fans_count']}}</p>
     <p>我一直在等，等开始也等结束，等面对也等逃避，等太多也等太少，等时间苍老，等等...唯不等奇迹，不等未来，却时时再等“过去”。</p>
-
     <h4>Recently Notes.</h4>
     <ol style="-webkit-padding-start: 0">
     {% for recent_note in recent_notes %}

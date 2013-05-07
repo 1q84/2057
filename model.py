@@ -90,6 +90,23 @@ class UserModel(BaseModel):
         res = self.db.query("SELECT * from users where id in (" +",".join(["%s"] * len(user_ids)) + ")", *user_ids)
         return res
 
+    def update(self, user_id, nickname, gender, description, avatar):
+        if avatar=='default':
+            sql = "update users set nickname=%s,nickname=%s,gender=%s,description=%s where id = %s"
+            try:
+                user_id = self.db.execute_lastrowid(sql, user_id, nickname, gender, description, user_id)
+                return user_id
+            except Exception,e:
+                return
+        else:
+            sql = "update users set nickname=%s,nickname=%s,gender=%s,description=%s,avatar=%s where id = %s"
+            try:
+                user_id = self.db.execute_lastrowid(sql, user_id, nickname, gender, description, avatar, user_id)
+                return user_id
+            except Exception,e:
+                return
+        
+
 class NoteModel(BaseModel):
 
     
@@ -123,6 +140,7 @@ class NoteModel(BaseModel):
         if not page:
             page = 1
         page = int(page)
+        author_ids.append('0')
         sql = "SELECT * from notes where author_id in %s order by id desc limit 20 offset %s;"
         res = self.db.query(sql,tuple(author_ids),(page-1)*20)
         return res
