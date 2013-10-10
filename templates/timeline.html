@@ -22,10 +22,14 @@
     <div id="sub_column_right_down">
         <p>Recently Notes.</p>
         <ol >
-        {% for recent_note in recent_notes %}
-            <li>
-               <p><a href="/note/{{recent_note['id']}}" style="text-decoration: none">{{recent_note['title']}}</a></p>
-            </li>
+        {%if not recent_notes%}
+            <p>目前还没有最新的日志</p>
+        {%else%}
+            {% for recent_note in recent_notes %}
+                <li>
+                   <p><a href="/note/{{recent_note['id']}}" style="text-decoration: none">{{recent_note['title']}}</a></p>
+                </li>
+            {% end %}
         {% end %}
         </ol>
     </div>

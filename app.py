@@ -4,16 +4,16 @@ import time
 import logging
 import tornado.ioloop
 import tornado.web
-import tornado.database
 import tornado.options
 import tornado.httpserver
 from tornado.options import define,options
 import tornado.autoreload
 
+
 define("port", default=8888, help="run on the given port", type=int)
 define('photo_save_path', default = 'static/uploads/', type = str, help = 'where to put user\'s photos')
 define('avatar_save_path', default = 'static/uploads/avatar/', type = str, help = 'where to put avatar')
-options.log_file_prefix = 'log/web.log'
+options.log_file_prefix = 'web.log'
 
 class NoteModule(tornado.web.UIModule):
     def render(self, note, show_comments=False,create_comment=False,flag=True):
@@ -47,8 +47,6 @@ class Application(tornado.web.Application):
 
 def main():
     ts = time.strftime('%Y%m%d',time.localtime(time.time()))
-    log_path='server.%s.log'%ts
-    options['log_file_prefix'].set(log_path)
     tornado.options.parse_command_line()
     http_server = tornado.httpserver.HTTPServer(Application())
     http_server.listen(options.port)

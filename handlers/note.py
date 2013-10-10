@@ -12,7 +12,6 @@ class NoteHandler(BaseHandler):
         if not note_id:
             note_id = self.get_argument('note_id', None)
         note = self.service.get_note(note_id)
-        print note_id
         owner = self.service.get_user(note['author_id'],self.get_current_user().get('id'))
         note.update({'user':owner})
         comments = self.service.batch_get_comment(note_id)

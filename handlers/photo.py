@@ -17,7 +17,6 @@ class PhotoHandler(BaseHandler):
             callback=(yield tornado.gen.Callback("statuses")))
         response = yield tornado.gen.Wait("statuses")
         if response.error:
-            print response
             self.set_header("Content-Type", "application/json")
             self.write(tornado.escape.json_encode({'is_success':False}))
             self.finish()

@@ -5,7 +5,7 @@ import time
 import string
 from utils import encrypt_password
 from tornado.options import define, options
-from tornado.database import Connection,IntegrityError
+from torndb import Connection,IntegrityError
 
 define("mysql_host", default="127.0.0.1:3306", help="blog database host")
 define("mysql_database", default="2057", help="blog database name")
